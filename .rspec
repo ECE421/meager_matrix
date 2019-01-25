@@ -1,0 +1,3 @@
+-f d
+-r my_example_spec
+-c
