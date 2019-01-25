@@ -1,5 +1,7 @@
 # meager_matrix
 
+[![Build Status](https://travis-ci.com/ECE421/meager_matrix.svg?branch=master)](https://travis-ci.com/ECE421/meager_matrix)
+
 ## Description
 `meager_matrix` is ruby sparse matrix library that takes inspiration from
 SciPy's implementation of sparse matrices.
