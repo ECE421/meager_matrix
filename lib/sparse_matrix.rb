@@ -1,15 +1,33 @@
 # Generic Sparse Matrix (CSR storage)
 class SparseMatrix
-    def initialize(nrows: Integer, ncols: Integer)
+    public
+    # Basic initialization. Assumes matrix input is properly formatted.
+    def initialize(matrix: Array)
         @nnz = 0
-        @num_rows = nrows
-        @num_cols = ncols
+        @num_rows = matrix.length
+        @num_cols = matrix[0].length # TODO: Bad assumption
         @a_array = Array.new # []
         @ia_array = Array.new(1, 0) # [0]
         @ja_array = Array.new # []
-    end
 
-    def initialize(matrix: Array)
+        zero_count = 0
+        matrix.each do |row|
+            if row.is_a?(Array)
+                row.each_with_index do |value, index|
+                    if value == 0
+                        zero_count += 1
+                    else
+                        @nnz += 1
+                        @a_array.insert(@a_array.length, value)
+                        @ia_array.insert(@ia_array.length, @ia_array[@ia_array.length - 1] + zero_count)
+                        zero_count = 0
+                        @ja_array.insert(@ja_array.length, index)
+                    end
+                end
+            else
+                TypeError
+            end
+        end
     end
 
     private
@@ -23,6 +41,11 @@ class SparseMatrix
     end
 
     public
+    def get(row: Integer, col: Integer)
+        self.check_index(row, col)
+        # TODO
+    end
+
     def insert(val: Float, row: Integer, col: Integer)
         self.check_index(row, col)
         # TODO
