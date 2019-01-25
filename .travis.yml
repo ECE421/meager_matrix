@@ -2,18 +2,17 @@ language: ruby
 sudo: false
 dist: trusty
 
+rvm: 2.5.3
+
 stages:
   - lint
   - test
 
 jobs:
   include:
-    - rvm: 2.5.3
-    - rvm: 2.6.0
-    - rvm: ruby-head
     - stage: lint
-      rvm: 2.5.3
       before_install:
         - gem install rubocop
       script:
         - rubocop
+    - stage: test
