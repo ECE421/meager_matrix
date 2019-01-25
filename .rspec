@@ -1,3 +1,3 @@
 -f d
--r my_example_spec
+-r spec_helper
 -c
