@@ -19,4 +19,4 @@ jobs:
       before_install:
         - gem install test-unit
       script:
-        - bundle exec ruby test/sparse_matrix.rb
+        - bundle exec ruby ./test/sparse_matrix.rb
