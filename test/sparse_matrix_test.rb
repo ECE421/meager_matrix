@@ -24,4 +24,21 @@ class SparseMatrixTest < Test::Unit::TestCase
     assert_equal([0, 0, 2, 3, 4], matrix.ia_array)
     assert_equal([0, 1, 2, 1], matrix.ja_array)
   end
+
+  def test_power
+    matrix = SparseMatrix.new(
+      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
+    )
+    matrix.power(2)
+    assert_equal([25, 64, 9, 36], matrix.a_array)
+    matrix.power(0.5)
+    assert_equal([5.0, 8.0, 3.0, 6.0], matrix.a_array)
+  end
+
+  def test_power_type_error
+    matrix = SparseMatrix.new(
+      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
+    )
+    assert_raises(TypeError) { matrix.power('2') }
+  end
 end

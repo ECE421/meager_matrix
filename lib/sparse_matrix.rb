@@ -1,11 +1,9 @@
 # Generic Sparse Matrix (CSR storage)
 class SparseMatrix
-  attr_reader(:num_rows, :num_cols, :a_array, :ia_array, :ja_array)
+  attr_reader(:a_array, :ia_array, :ja_array)
 
   # Basic initialization. Assumes matrix input is properly formatted.
   def initialize(matrix)
-    @num_rows = matrix.length
-    @num_cols = matrix[0].length # TODO: Bad assumption
     @a_array = []
     @ia_array = [0]
     @ja_array = []
@@ -28,10 +26,9 @@ class SparseMatrix
     end
   end
 
-  private
+  def power(exponent)
+    raise(TypeError) unless exponent.is_a?(Numeric)
 
-  def check_index(row, col)
-    IndexError if row < 0 || row > @num_rows
-    IndexError if col < 0 || col > @num_cols
+    @a_array.map! { |base| base**exponent }
   end
 end
