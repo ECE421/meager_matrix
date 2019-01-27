@@ -51,3 +51,4 @@ build-iPhoneSimulator/
 
 # project
 .idea/
+Gemfile.lock
