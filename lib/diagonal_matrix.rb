@@ -6,17 +6,25 @@ class DiagonalMatrix
 
   # create an mxn matrix with the given array values as the
   # values populating the main diagonal of the matrix
-  def initialize(diagonal, m, n)
+  # if m or n are not given they are set to the length of the
+  # diagonal array
+  def initialize(diagonal, num_row, num_col)
     raise(TypeError) unless diagonal.is_a?(Array)
-    raise(TypeError) unless m.is_a?(Integer)
-    raise(TypeError) unless n.is_a?(Integer)
-    raise(ArgumentError) unless diagonal.length == n or diagonal.length == m
-    if diagonal.length > m or diagonal.length > n
+
+    raise(TypeError) unless num_row.is_a?(Integer)
+
+    raise(TypeError) unless num_col.is_a?(Integer)
+
+    raise(ArgumentError) unless
+        diagonal.length == num_col || diagonal.length == num_row
+
+    if diagonal.length > num_row || diagonal.length > num_col
       raise(ArgumentError)
     end
+
     @diagonal = diagonal
-    @num_row = m
-    @num_col = n
+    @num_row = num_row
+    @num_col = num_col
   end
 
   # return the DiagonalMatrix as a m long Array of n long Arrays
@@ -28,7 +36,7 @@ class DiagonalMatrix
       row[i] = diagonal.at(i)
       matrix[i] = row
       puts(matrix)
-      i = i+1
+      i += 1
     end
     matrix
   end
