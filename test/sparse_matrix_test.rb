@@ -21,21 +21,17 @@ class SparseMatrixTest < Test::Unit::TestCase
     types = %w[csr dok]
 
     types.each do |type|
-      if type == 'diagonal'
-        matrix = SparseMatrix.new(raw_data, type)
+      matrix = SparseMatrix.new(raw_data, type)
+      matrix.power!(2)
+      after_power = matrix.read_all!
 
-        matrix.power!(2)
-        after_power = matrix.read_all!
+      if type == 'diagonal'
         assert_equal([0, 64, 9, 0], after_power)
 
         matrix.power!(0.5)
         after_power = matrix.read_all!
         assert_equal([0, 8.0, 3.0, 0], after_power)
       else
-        matrix = SparseMatrix.new(raw_data, type)
-
-        matrix.power!(2)
-        after_power = matrix.read_all!
         assert_equal([25, 64, 9, 36], after_power)
 
         matrix.power!(0.5)
