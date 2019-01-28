@@ -4,27 +4,22 @@
 class DiagonalMatrix
   attr_reader(:diagonal)
 
-  # create an mxn matrix with the given array values as the
-  # values populating the main diagonal of the matrix
-  # if m or n are not given they are set to the length of the
-  # diagonal array
-  def initialize(diagonal, num_row, num_col)
-    raise(TypeError) unless diagonal.is_a?(Array)
+  # Initialize a diagonal sparse matrix from a array based definition
+  # Note: non diagonal values will be dropped
+  def initialize(*args)
+    @diagonal = []
+    return unless args.length.nonzero?
+    raise(TypeError) unless args[0].is_a?(Array)
 
-    raise(TypeError) unless num_row.is_a?(Integer)
-
-    raise(TypeError) unless num_col.is_a?(Integer)
-
-    raise(ArgumentError) unless
-        diagonal.length == num_col || diagonal.length == num_row
-
-    if diagonal.length > num_row || diagonal.length > num_col
-      raise(ArgumentError)
+    matrix = args[0]
+    @num_row = matrix.length
+    matrix.each_with_index do |row, i|
+      raise(TypeError) unless row.is_a?(Array)
+      @num_col = row.length
+      if i <= row.length
+        @diagonal.push(row[i])
+      end
     end
-
-    @diagonal = diagonal
-    @num_row = num_row
-    @num_col = num_col
   end
 
   # return the DiagonalMatrix as a m long Array of n long Arrays
@@ -43,7 +38,10 @@ class DiagonalMatrix
 
   def power(exponent)
     raise(TypeError) unless exponent.is_a?(Numeric)
-
     @diagonal.map! { |base| base**exponent }
+  end
+
+  def read_all
+    @diagonal
   end
 end
