@@ -15,11 +15,12 @@ class DiagonalMatrix
     @num_row = matrix.length
     matrix.each_with_index do |row, i|
       raise(TypeError) unless row.is_a?(Array)
+
       @num_col = row.length
 
-      if i < @num_col
-        @diagonal.push(row[i])
-      end
+      next if i >= @num_col
+
+      @diagonal.push(row[i])
     end
   end
 
@@ -39,6 +40,7 @@ class DiagonalMatrix
 
   def power(exponent)
     raise(TypeError) unless exponent.is_a?(Numeric)
+
     @diagonal.map! { |base| base**exponent }
   end
 
