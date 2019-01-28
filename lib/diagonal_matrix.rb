@@ -22,10 +22,10 @@ class DiagonalMatrix
     end
   end
 
-  # return the DiagonalMatrix as a m long Array of n long Arrays
+  # return the DiagonalMatrix as a @num_row long Array of @num_col long Arrays
   def to_matrix
     i = 0
-    matrix = Array.new(@num_row, Array.new(@num_col, 0))
+    matrix = Array.new(@num_row, Array.new(@num_row, 0))
     while i < @diagonal.length
       row = Array.new(@num_col, 0)
       row[i] = diagonal.at(i)
