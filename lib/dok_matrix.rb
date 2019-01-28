@@ -6,12 +6,14 @@ class DOKMatrix
     @dict = {}
 
     return unless args.length.nonzero?
+    raise(TypeError) unless args[0].is_a?(Array)
 
     matrix = args[0]
     matrix.each_with_index do |row, i|
       raise(TypeError) unless row.is_a?(Array)
 
       row.each_with_index do |value, j|
+        raise(TypeError) unless value.is_a?(Numeric)
         next unless value.nonzero?
 
         @dict[:"#{i},#{j}"] = value
