@@ -43,6 +43,7 @@ class DiagonalMatrix
 
   def power(exponent)
     raise(TypeError) unless exponent.is_a?(Numeric)
+
     @diagonal.map! { |base| base**exponent }
   end
 end
