@@ -20,7 +20,7 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     assert_equal([0, 0, 0, 0], DiagonalMatrix.new([0, 0, 0, 0], 4, 4).diagonal)
   end
 
-  def test_iniitialization_empty
+  def test_initialization_empty
     matrix = DiagonalMatrix.new(
       [], 0, 0
     )
