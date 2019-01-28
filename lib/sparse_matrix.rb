@@ -3,11 +3,14 @@ class SparseMatrix
   attr_reader(:a_array, :ia_array, :ja_array)
 
   # Basic initialization. Assumes matrix input is properly formatted.
-  def initialize(matrix)
+  def initialize(*args)
     @a_array = []
     @ia_array = [0]
     @ja_array = []
 
+    return unless args.length.nonzero?
+
+    matrix = args[0]
     matrix.each do |row|
       nonzero_count = 0
       if row.is_a?(Array)
