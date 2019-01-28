@@ -21,6 +21,10 @@ class DOKMatrix
     end
   end
 
+  def read_all
+    @dict.values
+  end
+
   def read(row, col)
     @dict[:"#{row},#{col}"]
   end
