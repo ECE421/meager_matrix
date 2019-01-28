@@ -25,6 +25,13 @@ class SparseMatrixTest < Test::Unit::TestCase
     assert_equal([0, 1, 2, 1], matrix.ja_array)
   end
 
+  def test_initialization_no_args
+    matrix = SparseMatrix.new
+    assert_equal([], matrix.a_array)
+    assert_equal([0], matrix.ia_array)
+    assert_equal([], matrix.ja_array)
+  end
+
   def test_power
     matrix = SparseMatrix.new(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
