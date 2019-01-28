@@ -1,35 +1,24 @@
-# Generic Sparse Matrix (CSR storage)
+# Abstract factory for building sparse matrix
 class SparseMatrix
-  attr_reader(:a_array, :ia_array, :ja_array)
-
-  # Basic initialization. Assumes matrix input is properly formatted.
   def initialize(*args)
-    @a_array = []
-    @ia_array = [0]
-    @ja_array = []
+    raise(ArgumentError) unless args.length == 2
 
-    return unless args.length.nonzero?
-
-    matrix = args[0]
-    matrix.each do |row|
-      nonzero_count = 0
-      raise(TypeError) unless row.is_a?(Array)
-
-      row.each_with_index do |value, index|
-        next unless value.nonzero?
-
-        nonzero_count += 1
-        @a_array.insert(@a_array.length, value)
-        @ja_array.insert(@ja_array.length, index)
-      end
-      @ia_array.insert(@ia_array.length,
-                       @ia_array[@ia_array.length - 1] + nonzero_count)
+    raw_data = args[0]
+    type = args[1]
+    if type == 'csr'
+      @matrix = CSRMatrix.new(raw_data)
+    elsif type == 'dok'
+      @matrix = DOKMatrix.new(raw_data)
+    else
+      raise(ArgumentError, "Unknown type #{type}")
     end
   end
 
-  def power(exponent)
-    raise(TypeError) unless exponent.is_a?(Numeric)
+  def read_all!
+    @matrix.read_all
+  end
 
-    @a_array.map! { |base| base**exponent }
+  def power!(exponent)
+    @matrix.power(exponent)
   end
 end

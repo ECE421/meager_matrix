@@ -1,4 +1,6 @@
 require 'test/unit'
+require_relative '../lib/csr_matrix'
+require_relative '../lib/dok_matrix'
 require_relative '../lib/sparse_matrix'
 
 class SparseMatrixTest < Test::Unit::TestCase
@@ -14,38 +16,20 @@ class SparseMatrixTest < Test::Unit::TestCase
     # Do nothing
   end
 
-  # Test the matrix initialization code
-  # Based on https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_(CSR,_CRS_or_Yale_format)
-  def test_initialization
-    matrix = SparseMatrix.new(
-      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
-    )
-    assert_equal([5, 8, 3, 6], matrix.a_array)
-    assert_equal([0, 0, 2, 3, 4], matrix.ia_array)
-    assert_equal([0, 1, 2, 1], matrix.ja_array)
-  end
+  def test_power!
+    raw_data = [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
+    types = %w[csr dok]
 
-  def test_initialization_no_args
-    matrix = SparseMatrix.new
-    assert_equal([], matrix.a_array)
-    assert_equal([0], matrix.ia_array)
-    assert_equal([], matrix.ja_array)
-  end
+    types.each do |type|
+      matrix = SparseMatrix.new(raw_data, type)
 
-  def test_power
-    matrix = SparseMatrix.new(
-      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
-    )
-    matrix.power(2)
-    assert_equal([25, 64, 9, 36], matrix.a_array)
-    matrix.power(0.5)
-    assert_equal([5.0, 8.0, 3.0, 6.0], matrix.a_array)
-  end
+      matrix.power!(2)
+      after_power = matrix.read_all!
+      assert_equal([25, 64, 9, 36], after_power)
 
-  def test_power_type_error
-    matrix = SparseMatrix.new(
-      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
-    )
-    assert_raises(TypeError) { matrix.power('2') }
+      matrix.power!(0.5)
+      after_power = matrix.read_all!
+      assert_equal([5.0, 8.0, 3.0, 6.0], after_power)
+    end
   end
 end
