@@ -21,6 +21,24 @@ class DOKMatrix
     end
   end
 
+  def read(row, col)
+    @dict[:"#{row},#{col}"]
+  end
+
+  def insert(row, col, value)
+    raise(ArgumentError) unless row >= 0 && col >= 0
+    raise(TypeError) unless value.is_a?(Numeric) || value.nil?
+    return delete(row, col) unless !value.nil? && value.nonzero?
+
+    @dict[:"#{row},#{col}"] = value
+  end
+
+  def delete(row, col)
+    raise(ArgumentError) unless row >= 0 && col >= 0
+
+    @dict.delete(:"#{row},#{col}")
+  end
+
   def power(exponent)
     raise(TypeError) unless exponent.is_a?(Numeric)
 
