@@ -18,4 +18,10 @@ class DOKMatrix
       end
     end
   end
+
+  def power(exponent)
+    raise(TypeError) unless exponent.is_a?(Numeric)
+
+    @dict.transform_values! { |base| base**exponent }
+  end
 end
