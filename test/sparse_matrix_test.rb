@@ -18,7 +18,7 @@ class SparseMatrixTest < Test::Unit::TestCase
 
   def test_power!
     raw_data = [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
-    types = %w[csr, dok]
+    types = %w[csr dok]
 
     types.each do |type|
       matrix = SparseMatrix.new(raw_data, type)
