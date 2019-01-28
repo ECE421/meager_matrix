@@ -40,4 +40,9 @@ class DiagonalMatrix
     end
     matrix
   end
+
+  def power(exponent)
+    raise(TypeError) unless exponent.is_a?(Numeric)
+    @diagonal.map! { |base| base**exponent }
+  end
 end
