@@ -12,7 +12,6 @@ class DiagonalMatrix
     raise(TypeError) unless n.is_a?(Integer)
     raise(ArgumentError) unless diagonal.length == n or diagonal.length == m
     if diagonal.length > m or diagonal.length > n
-      puts("he")
       raise(ArgumentError)
     end
     @diagonal = diagonal
@@ -20,8 +19,17 @@ class DiagonalMatrix
     @num_col = n
   end
 
-  # convert the DiagonalMatrix into a standard SparseMatrix
+  # return the DiagonalMatrix as a m long Array of n long Arrays
   def to_matrix
-
+    i = 0
+    matrix = Array.new(@num_row, Array.new(@num_col, 0))
+    while i < @diagonal.length
+      row = Array.new(@num_col, 0)
+      row[i] = diagonal.at(i)
+      matrix[i] = row
+      puts(matrix)
+      i = i+1
+    end
+    matrix
   end
 end

@@ -23,6 +23,13 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     assert_equal([0 , 0 , 0 , 0], matrix.diagonal)
   end
 
+  def test_iniitialization_empty
+    matrix = DiagonalMatrix.new(
+        [], 0, 0
+    )
+    assert_equal([], matrix.diagonal)
+  end
+
   def test_invalid_row_size
     assert_raises(ArgumentError) {
       DiagonalMatrix.new(
@@ -37,5 +44,23 @@ class DiagonalMatrixTest < Test::Unit::TestCase
           [0, 0, 0, 0], 4, 3
       )
     }
+  end
+
+  def test_too_small_diagonal
+    assert_raises(ArgumentError) do
+      DiagonalMatrix.new(
+                        [], 1, 1
+      )
+    end
+  end
+
+  def test_to_matrix
+    assert_equal([[1, 0], [0, 2]], DiagonalMatrix.new([1, 2], 2, 2).to_matrix)
+    assert_equal([[1, 0], [0, 2], [0, 0]], DiagonalMatrix.new([1, 2], 3, 2).to_matrix)
+    assert_equal([[1, 0, 0], [0, 2, 0]], DiagonalMatrix.new([1, 2], 2, 3).to_matrix)
+  end
+
+  def test_to_matrix_empty
+    assert_equal([], DiagonalMatrix.new([], 0, 0).to_matrix)
   end
 end
