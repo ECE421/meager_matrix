@@ -37,4 +37,16 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     after_power = matrix.read_all
     assert_equal([1, 8.0, 3.0, 6.0], after_power)
   end
+
+  def test_extra_row_matrix
+    matrix = DiagonalMatrix.new([[1, 0], [0, 2], [0, 0]])
+    assert_equal([[1, 0], [0, 2], [0, 0]], matrix.to_matrix)
+    assert_equal([1, 2], matrix.diagonal)
+  end
+
+  def test_extra_col_matrix
+    matrix = DiagonalMatrix.new([[1, 0, 0], [0, 2, 0]])
+    assert_equal([[1, 0, 0], [0, 2, 0]], matrix.to_matrix)
+    assert_equal([1, 2], matrix.diagonal)
+  end
 end

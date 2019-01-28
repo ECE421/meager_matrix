@@ -16,7 +16,8 @@ class DiagonalMatrix
     matrix.each_with_index do |row, i|
       raise(TypeError) unless row.is_a?(Array)
       @num_col = row.length
-      if i <= row.length
+
+      if i < @num_col
         @diagonal.push(row[i])
       end
     end
@@ -25,7 +26,7 @@ class DiagonalMatrix
   # return the DiagonalMatrix as a @num_row long Array of @num_col long Arrays
   def to_matrix
     i = 0
-    matrix = Array.new(@num_row, Array.new(@num_row, 0))
+    matrix = Array.new(@num_row, Array.new(@num_col, 0))
     while i < @diagonal.length
       row = Array.new(@num_col, 0)
       row[i] = diagonal.at(i)
