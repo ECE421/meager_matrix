@@ -4,23 +4,21 @@ require_relative '../lib/dok_matrix'
 require_relative '../lib/sparse_matrix'
 
 class SparseMatrixTest < Test::Unit::TestCase
-
-  # Called before every test method runs. Can be used
-  # to set up fixture information.
+  # Called before every test method runs.
+  # Can be used to set up fixture information.
   def setup
     # Do nothing
   end
 
-  # Called after every test method runs. Can be used to tear
-  # down fixture information.
-
+  # Called after every test method runs.
+  # Can be used to tear down fixture information.
   def teardown
     # Do nothing
   end
 
   def test_power!
     raw_data = [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
-    types = ['csr', 'dok']
+    types = %w[csr, dok]
 
     types.each do |type|
       matrix = SparseMatrix.new(raw_data, type)
