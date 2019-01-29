@@ -1,5 +1,6 @@
 require 'test/unit'
 require_relative '../lib/csr_matrix'
+require_relative '../lib/diagonal_matrix'
 require_relative '../lib/dok_matrix'
 require_relative '../lib/sparse_matrix'
 
@@ -18,18 +19,26 @@ class SparseMatrixTest < Test::Unit::TestCase
 
   def test_power!
     raw_data = [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
-    types = %w[csr dok]
+    types = %w[csr dok diagonal]
 
     types.each do |type|
       matrix = SparseMatrix.new(raw_data, type)
-
       matrix.power!(2)
       after_power = matrix.read_all!
-      assert_equal([25, 64, 9, 36], after_power)
 
-      matrix.power!(0.5)
-      after_power = matrix.read_all!
-      assert_equal([5.0, 8.0, 3.0, 6.0], after_power)
+      if type == 'diagonal'
+        assert_equal([0, 64, 9, 0], after_power)
+
+        matrix.power!(0.5)
+        after_power = matrix.read_all!
+        assert_equal([0, 8.0, 3.0, 0], after_power)
+      else
+        assert_equal([25, 64, 9, 36], after_power)
+
+        matrix.power!(0.5)
+        after_power = matrix.read_all!
+        assert_equal([5.0, 8.0, 3.0, 6.0], after_power)
+      end
     end
   end
 end

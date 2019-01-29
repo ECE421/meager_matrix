@@ -9,6 +9,8 @@ class SparseMatrix
       @matrix = CSRMatrix.new(raw_data)
     elsif type == 'dok'
       @matrix = DOKMatrix.new(raw_data)
+    elsif type == 'diagonal'
+      @matrix = DiagonalMatrix.new(raw_data)
     else
       raise(ArgumentError, "Unknown type #{type}")
     end
