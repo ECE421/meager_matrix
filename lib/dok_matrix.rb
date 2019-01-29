@@ -1,3 +1,5 @@
+require 'lib/matrix'
+
 # Dictionary Of Keys (DOK) sparse matrix
 class DOKMatrix < Matrix
   attr_reader(:dict)

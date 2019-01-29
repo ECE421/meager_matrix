@@ -1,3 +1,5 @@
+require 'lib/matrix'
+
 # Compressed Sparse Row (CSR) sparse matrix
 class CSRMatrix < Matrix
   attr_reader(:a_array, :ia_array, :ja_array)
