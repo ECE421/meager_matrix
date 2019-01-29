@@ -1,4 +1,4 @@
-require 'lib/matrix'
+require_relative  '../lib/matrix'
 
 # Dictionary Of Keys (DOK) sparse matrix
 class DOKMatrix < Matrix

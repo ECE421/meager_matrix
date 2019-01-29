@@ -1,4 +1,4 @@
-require 'lib/matrix'
+require_relative  '../lib/matrix'
 
 # A Diagonal Sparse Matrix
 # A sparse matrix that only contains non-zero values within the main diagonal.

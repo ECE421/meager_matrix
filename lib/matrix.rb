@@ -1,5 +1,3 @@
-require 'lib/matrix'
-
 # abstract class defining methods to be implemented as helpers
 # for subclassing sub-matrices
 class Matrix

@@ -1,4 +1,4 @@
-require 'lib/matrix'
+require_relative  '../lib/matrix'
 
 # Compressed Sparse Row (CSR) sparse matrix
 class CSRMatrix < Matrix
