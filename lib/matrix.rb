@@ -1,4 +1,11 @@
+# abstract class defining methods to be implemented as helpers
+# for subclassing sub-matrices
 class Matrix
+  def to_matrix
+    raise NotImplementedError,
+          'Matrix is an abstract class please implement methods'
+  end
+
   def to_array
     raise NotImplementedError,
           'Matrix is an abstract class please implement methods'

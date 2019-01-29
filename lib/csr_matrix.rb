@@ -1,5 +1,5 @@
 # Compressed Sparse Row (CSR) sparse matrix
-class CSRMatrix
+class CSRMatrix < Matrix
   attr_reader(:a_array, :ia_array, :ja_array)
 
   # Basic initialization. Assumes matrix input is properly formatted.

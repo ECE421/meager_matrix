@@ -1,7 +1,7 @@
 # A Diagonal Sparse Matrix
 # A sparse matrix that only contains non-zero values within the main diagonal.
 # With this knowledge heavy optimizations can be done.
-class DiagonalMatrix
+class DiagonalMatrix < Matrix
   attr_reader(:diagonal)
 
   # Initialize a diagonal sparse matrix from a array based definition
@@ -25,7 +25,7 @@ class DiagonalMatrix
   end
 
   # return the DiagonalMatrix as a @num_row long Array of @num_col long Arrays
-  def to_matrix
+  def to_array
     i = 0
     matrix = Array.new(@num_row, Array.new(@num_col, 0))
     while i < @diagonal.length

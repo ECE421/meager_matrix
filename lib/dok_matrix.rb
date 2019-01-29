@@ -1,5 +1,5 @@
 # Dictionary Of Keys (DOK) sparse matrix
-class DOKMatrix
+class DOKMatrix < Matrix
   attr_reader(:dict)
 
   def initialize(*args)
