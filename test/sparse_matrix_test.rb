@@ -21,7 +21,6 @@ class SparseMatrixTest < Test::Unit::TestCase
   end
 
   def test_to_matrix
-    @sparse_matrix = SparseMatrix.new(@matrix)
     assert_equal(@matrix, @sparse_matrix.to_matrix, "to_array failed for csr")
   end
 
@@ -55,36 +54,45 @@ class SparseMatrixTest < Test::Unit::TestCase
   end
 
   def test_add
-
+    matrix = Matrix.build(@matrix.row_count, @matrix.column_count) {rand(-10..10)}
+    @sparse_matrix + matrix
+    @matrix + matrix
+    assert_equal(@matrix, @sparse_matrix.to_matrix, "Matrix addition failed")
   end
 
   def test_subtract
-
+    matrix = Matrix.build(@matrix.row_count, @matrix.column_count) {rand(-10..10)}
+    @sparse_matrix - matrix
+    @matrix - matrix
+    assert_equal(@matrix, @sparse_matrix.to_matrix, "Matrix subtraction failed")
   end
 
   def test_divide
-
+    matrix = Matrix.build(@matrix.row_count, @matrix.column_count) {rand(-10..10)}
+    @sparse_matrix / matrix
+    @matrix / matrix
+    assert_equal(@matrix, @sparse_matrix.to_matrix, "Matrix division failed")
   end
 
   def test_multiply
-
+    matrix = Matrix.build(@matrix.row_count, @matrix.column_count) {rand(-10..10)}
+    @sparse_matrix * matrix
+    @matrix * matrix
+    assert_equal(@matrix, @sparse_matrix.to_matrix, "Matrix multiplication failed")
   end
 
   def test_power
-
+    scalar = rand(-10..10)
+    @sparse_matrix ** scalar
+    @matrix ** scalar
+    assert_equal(@matrix, @sparse_matrix.to_matrix, "Matrix exponentiation failed")
   end
 
-  def test_dot
-
-  end
-
-  def test_toMatrix
-
-  end
-
-  def test_equals
-
-  end
-
-
+  # def test_dot
+  #
+  # end
+  
+  # def test_equals
+  #
+  # end
 end
