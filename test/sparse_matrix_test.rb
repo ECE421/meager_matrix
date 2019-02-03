@@ -10,7 +10,7 @@ class SparseMatrixTest < Test::Unit::TestCase
   # Called before every test method runs.
   # Can be used to set up fixture information.
   def setup
-    @matrix = TestMatrixGenerator.generate_sparse_matrix(4,4)
+    @matrix = TestMatrixGenerator.generate_sparse_matrix(4, 4)
     @sparse_matrix = SparseMatrix.new(@matrix)
   end
 
@@ -21,77 +21,88 @@ class SparseMatrixTest < Test::Unit::TestCase
   end
 
   def test_to_matrix
-    assert_equal(@matrix, @sparse_matrix.to_matrix, "to_array failed for csr")
+    assert_equal(@matrix, @sparse_matrix.to_matrix, 'to_array failed for csr')
   end
 
   def test_add_scalar
     scalar = rand(-100..100)
-    @sparse_matrix + scalar
-    @matrix + scalar
-    assert_equal(@matrix, @sparse_matrix.to_matrix, "Addition failed")
+    actual = @sparse_matrix + scalar
+    exp = @matrix + scalar
+    assert_equal(exp, actual.to_matrix, 'Addition failed')
   end
 
   def test_subtract_scalar
     scalar = rand(-100..100)
-    @sparse_matrix - scalar
-    @matrix - scalar
-    assert_equal(@matrix, @sparse_matrix.to_matrix, "Subtraction failed")
+    actual = @sparse_matrix - scalar
+    exp = @matrix - scalar
+    assert_equal(exp, actual.to_matrix, 'Subtraction failed')
   end
 
   def test_divide_scalar
     scalar = rand(-100..100)
-    @sparse_matrix / scalar
-    @matrix / scalar
-    assert_equal(@matrix, @sparse_matrix.to_matrix, "Division failed")
+    actual = @sparse_matrix / scalar
+    exp = @matrix / scalar
+    assert_equal(exp, actual.to_matrix, 'Division failed')
   end
 
   def test_multiply_scalar
     scalar = rand(-100..100)
-    @sparse_matrix * scalar
-    @matrix * scalar
-    assert_equal(@matrix, @sparse_matrix.to_matrix, "Multiplication failed")
-
+    actual = @sparse_matrix * scalar
+    exp = @matrix * scalar
+    assert_equal(exp, actual.to_matrix, 'Multiplication failed')
   end
 
   def test_add
-    matrix = Matrix.build(@matrix.row_count, @matrix.column_count) {rand(-10..10)}
-    @sparse_matrix + matrix
-    @matrix + matrix
-    assert_equal(@matrix, @sparse_matrix.to_matrix, "Matrix addition failed")
+    matrix = Matrix.build(
+      @matrix.row_count,
+      @matrix.column_count
+    ) { rand(-10..10) }
+    actual = @sparse_matrix + matrix
+    exp = @matrix + matrix
+    assert_equal(exp, actual.to_matrix, 'Matrix addition failed')
   end
 
   def test_subtract
-    matrix = Matrix.build(@matrix.row_count, @matrix.column_count) {rand(-10..10)}
-    @sparse_matrix - matrix
-    @matrix - matrix
-    assert_equal(@matrix, @sparse_matrix.to_matrix, "Matrix subtraction failed")
+    matrix = Matrix.build(
+      @matrix.row_count,
+      @matrix.column_count
+    ) { rand(-10..10) }
+    actual = @sparse_matrix - matrix
+    exp = @matrix - matrix
+    assert_equal(exp, actual.to_matrix, 'Matrix subtraction failed')
   end
 
   def test_divide
-    matrix = Matrix.build(@matrix.row_count, @matrix.column_count) {rand(-10..10)}
-    @sparse_matrix / matrix
-    @matrix / matrix
-    assert_equal(@matrix, @sparse_matrix.to_matrix, "Matrix division failed")
+    matrix = Matrix.build(
+      @matrix.row_count,
+      @matrix.column_count
+    ) { rand(-10..10) }
+    actual = @sparse_matrix / matrix
+    exp = @matrix / matrix
+    assert_equal(exp, actual.to_matrix, 'Matrix division failed')
   end
 
   def test_multiply
-    matrix = Matrix.build(@matrix.row_count, @matrix.column_count) {rand(-10..10)}
-    @sparse_matrix * matrix
-    @matrix * matrix
-    assert_equal(@matrix, @sparse_matrix.to_matrix, "Matrix multiplication failed")
+    matrix = Matrix.build(
+      @matrix.row_count,
+      @matrix.column_count
+    ) { rand(-10..10) }
+    actual = @sparse_matrix * matrix
+    exp = @matrix * matrix
+    assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
   end
 
   def test_power
     scalar = rand(-10..10)
-    @sparse_matrix ** scalar
-    @matrix ** scalar
-    assert_equal(@matrix, @sparse_matrix.to_matrix, "Matrix exponentiation failed")
+    actual = @sparse_matrix**scalar
+    exp = @matrix**scalar
+    assert_equal(exp, actual.to_matrix, 'Matrix exponentiation failed')
   end
 
   # def test_dot
   #
   # end
-  
+
   # def test_equals
   #
   # end
