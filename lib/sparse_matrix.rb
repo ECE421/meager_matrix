@@ -1,6 +1,6 @@
 require 'matrix'
 
-# Dictionary Of Keys (DOK) sparse matrix
+# Abstract class definition of a sparse matrix
 class SparseMatrix < Matrix
 
 
