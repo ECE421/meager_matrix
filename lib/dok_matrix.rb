@@ -1,5 +1,7 @@
+require_relative '../lib/sparse_matrix'
+
 # Dictionary Of Keys (DOK) sparse matrix
-class DOKMatrix
+class DOKMatrix < SparseMatrix
   attr_reader(:dict)
 
   def initialize(*args)

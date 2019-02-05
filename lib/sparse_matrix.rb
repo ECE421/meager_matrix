@@ -1,26 +1,7 @@
-# Abstract factory for building sparse matrix
-class SparseMatrix
-  def initialize(*args)
-    raise(ArgumentError) unless args.length == 2
+require 'matrix'
 
-    raw_data = args[0]
-    type = args[1]
-    if type == 'csr'
-      @matrix = CSRMatrix.new(raw_data)
-    elsif type == 'dok'
-      @matrix = DOKMatrix.new(raw_data)
-    elsif type == 'diagonal'
-      @matrix = DiagonalMatrix.new(raw_data)
-    else
-      raise(ArgumentError, "Unknown type #{type}")
-    end
-  end
+# Dictionary Of Keys (DOK) sparse matrix
+class SparseMatrix < Matrix
 
-  def read_all!
-    @matrix.read_all
-  end
 
-  def power!(exponent)
-    @matrix.power(exponent)
-  end
 end
