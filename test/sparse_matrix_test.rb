@@ -1,7 +1,7 @@
 require 'test/unit'
 require_relative '../lib/sparse_matrix'
 
-class MyTest < Test::Unit::TestCase
+class SparseMatrixTest < Test::Unit::TestCase
 
   # Called before every test method runs. Can be used
   # to set up fixture information.
@@ -19,5 +19,4 @@ class MyTest < Test::Unit::TestCase
   def test_rows
     assert_raises(NotImplementedError) { SparseMatrix.rows([[]]) }
   end
-  # Fake test
 end
