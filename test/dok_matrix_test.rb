@@ -5,11 +5,12 @@ class DOKMatrixTest < Test::Unit::TestCase
   # Called before every test method runs.
   # Can be used to set up fixture information.
   def setup
-    # Do nothing
+    @matrix = TestMatrixGenerator.generate_sparse_matrix(4, 4)
+    @sparse_matrix = SparseMatrixFactory.new(@matrix, 'dok')
   end
 
-  # Called after every test method runs.
-  # Can be used to tear down fixture information.
+  # Called after every test method runs. Can be used to tear
+  # down fixture information.
   def teardown
     # Do nothing
   end
@@ -84,14 +85,82 @@ class DOKMatrixTest < Test::Unit::TestCase
     assert_equal({ '1,1': 8, '2,2': 3, '3,1': 6 }, matrix.dict)
   end
 
+  def test_to_matrix
+    assert_equal(@matrix, @sparse_matrix.to_matrix, 'to_array failed for csr')
+  end
+
+  def test_add_scalar
+    scalar = rand(-100..100)
+    actual = @sparse_matrix + scalar
+    exp = @matrix + scalar
+    assert_equal(exp, actual.to_matrix, 'Addition failed')
+  end
+
+  def test_subtract_scalar
+    scalar = rand(-100..100)
+    actual = @sparse_matrix - scalar
+    exp = @matrix - scalar
+    assert_equal(exp, actual.to_matrix, 'Subtraction failed')
+  end
+
+  def test_divide_scalar
+    scalar = rand(-100..100)
+    actual = @sparse_matrix / scalar
+    exp = @matrix / scalar
+    assert_equal(exp, actual.to_matrix, 'Division failed')
+  end
+
+  def test_multiply_scalar
+    scalar = rand(-100..100)
+    actual = @sparse_matrix * scalar
+    exp = @matrix * scalar
+    assert_equal(exp, actual.to_matrix, 'Multiplication failed')
+  end
+
+  def test_add
+    matrix = Matrix.build(
+      @matrix.row_count,
+      @matrix.column_count
+    ) { rand(-10..10) }
+    actual = @sparse_matrix + matrix
+    exp = @matrix + matrix
+    assert_equal(exp, actual.to_matrix, 'Matrix addition failed')
+  end
+
+  def test_subtract
+    matrix = Matrix.build(
+      @matrix.row_count,
+      @matrix.column_count
+    ) { rand(-10..10) }
+    actual = @sparse_matrix - matrix
+    exp = @matrix - matrix
+    assert_equal(exp, actual.to_matrix, 'Matrix subtraction failed')
+  end
+
+  def test_divide
+    matrix = Matrix.build(
+      @matrix.row_count,
+      @matrix.column_count
+    ) { rand(-10..10) }
+    actual = @sparse_matrix / matrix
+    exp = @matrix / matrix
+    assert_equal(exp, actual.to_matrix, 'Matrix division failed')
+  end
+
+  def test_multiply
+    matrix = Matrix.build(
+      @matrix.row_count,
+      @matrix.column_count
+    ) { rand(-10..10) }
+    actual = @sparse_matrix * matrix
+    exp = @matrix * matrix
+    assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
+  end
+
   def test_power
-    matrix = DOKMatrix.new(
-      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
-    )
-    matrix.power(2)
-    assert_equal({ '1,0': 25, '1,1': 64, '2,2': 9, '3,1': 36 }, matrix.dict)
-    matrix.power(0.5)
-    assert_equal({ '1,0': 5.0, '1,1': 8.0, '2,2': 3.0, '3,1': 6.0 },
-                 matrix.dict)
+    scalar = rand(-10..10)
+    actual = @sparse_matrix**scalar
+    exp = @matrix**scalar
+    assert_equal(exp, actual.to_matrix, 'Matrix exponentiation failed')
   end
 end
