@@ -25,6 +25,10 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     assert_true(diagonal_matrix.is_a?DiagonalMatrix)
     assert_true(diagonal_matrix.is_a?SparseMatrix)
     assert_true(diagonal_matrix.is_a?Matrix)
+    assert_equal([0, 0], diagonal_matrix.diagonal)
+    assert_equal([[0, 0], [0, 0]], diagonal_matrix.to_a)
+    assert_equal(2, diagonal_matrix.column_count)
+    assert_equal(2, diagonal_matrix.row_count)
   end
 
   def test_to_matrix
@@ -40,11 +44,15 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     diagonal_matrix = DiagonalMatrix.rows([[1, 0], [0, 2], [0, 0]])
     assert_equal([1, 2], diagonal_matrix.diagonal)
     assert_equal([[1, 0], [0, 2], [0, 0]], diagonal_matrix.to_a)
+    assert_equal(3, diagonal_matrix.row_count)
+    assert_equal(2, diagonal_matrix.column_count)
   end
 
   def test_extra_col_matrix
     diagonal_matrix = DiagonalMatrix.rows([[1, 0, 0], [0, 2, 0]])
     assert_equal([1, 2], diagonal_matrix.diagonal)
     assert_equal([[1, 0, 0], [0, 2, 0]], diagonal_matrix.to_a)
+    assert_equal(2, diagonal_matrix.row_count)
+    assert_equal(3, diagonal_matrix.column_count)
   end
 end
