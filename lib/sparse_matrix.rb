@@ -5,7 +5,7 @@ class SparseMatrix < Matrix
   attr_reader :rows
   protected :rows
 
-  def rows(rows, copy = true)
+  def SparseMatrix.rows(rows, copy = true)
     raise NotImplementedError,
           'SparseMatrix is an abstract class please implement methods'
   end
