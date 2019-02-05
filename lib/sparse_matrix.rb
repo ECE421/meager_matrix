@@ -16,4 +16,12 @@ class SparseMatrix < Matrix
     raise NotImplementedError,
           'SparseMatrix is an abstract class please implement methods'
   end
+
+  #
+  # Returns the number of rows.
+  #
+  def row_count
+    raise NotImplementedError,
+          'SparseMatrix is an abstract class please implement methods'
+  end
 end
