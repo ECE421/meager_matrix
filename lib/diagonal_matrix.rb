@@ -32,7 +32,9 @@ class DiagonalMatrix < SparseMatrix
     new diagonal, num_row, num_col
   end
 
-  # return the DiagonalMatrix as a @num_row long Array of @num_col long Arrays
+  #
+  # Returns the DiagonalMatrix as a Matrix.
+  #
   def to_matrix
     i = 0
     matrix = Array.new(@row_count, Array.new(@column_count, 0))
@@ -46,6 +48,9 @@ class DiagonalMatrix < SparseMatrix
     Matrix.rows(matrix)
   end
 
+  #
+  # Returns the number of rows.
+  #
   def row_count
     @row_count
   end
