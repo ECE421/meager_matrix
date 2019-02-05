@@ -2,7 +2,6 @@ require 'test/unit'
 require_relative '../lib/diagonal_matrix'
 
 class DiagonalMatrixTest < Test::Unit::TestCase
-
   def setup
     # Do nothing
   end
@@ -19,9 +18,9 @@ class DiagonalMatrixTest < Test::Unit::TestCase
 
   def test_rows
     diagonal_matrix = DiagonalMatrix.rows([[0, 0], [0, 0]])
-    assert_true(diagonal_matrix.is_a?DiagonalMatrix)
-    assert_true(diagonal_matrix.is_a?SparseMatrix)
-    assert_true(diagonal_matrix.is_a?Matrix)
+    assert_true(diagonal_matrix.is_a?(DiagonalMatrix))
+    assert_true(diagonal_matrix.is_a?(SparseMatrix))
+    assert_true(diagonal_matrix.is_a?(Matrix))
     assert_equal([0, 0], diagonal_matrix.diagonal)
     assert_equal([[0, 0], [0, 0]], diagonal_matrix.to_a)
     assert_equal(2, diagonal_matrix.column_count)
@@ -31,9 +30,9 @@ class DiagonalMatrixTest < Test::Unit::TestCase
   def test_to_matrix
     diagonal_matrix = DiagonalMatrix.rows([[0, 0], [0, 0]])
     matrix = diagonal_matrix.to_matrix
-    assert_false(matrix.is_a?DiagonalMatrix)
-    assert_false(matrix.is_a?SparseMatrix)
-    assert_true(matrix.is_a?Matrix)
+    assert_false(matrix.is_a?(DiagonalMatrix))
+    assert_false(matrix.is_a?(SparseMatrix))
+    assert_true(matrix.is_a?(Matrix))
     assert_equal([[0, 0], [0, 0]], matrix.to_a)
   end
 
