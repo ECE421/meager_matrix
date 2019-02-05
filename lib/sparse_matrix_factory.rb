@@ -1,5 +1,5 @@
 # Abstract factory for building sparse matrix
-class AbstractSparseMatrixFactory
+class SparseMatrixFactory
   def initialize(*args)
     raise(ArgumentError) unless args.length == 2
 

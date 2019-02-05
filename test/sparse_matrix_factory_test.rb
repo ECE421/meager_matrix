@@ -2,10 +2,10 @@ require 'test/unit'
 require_relative '../lib/csr_matrix'
 require_relative '../lib/diagonal_matrix'
 require_relative '../lib/dok_matrix'
-require_relative '../lib/abstract_sparse_matrix_factory'
+require_relative '../lib/sparse_matrix_factory'
 require 'matrix'
 
-class AbstractSparseMatrixFactoryTest < Test::Unit::TestCase
+class SparseMatrixFactoryTest < Test::Unit::TestCase
   # Called before every test method runs.
   # Can be used to set up fixture information.
   def setup
@@ -23,7 +23,7 @@ class AbstractSparseMatrixFactoryTest < Test::Unit::TestCase
     types = %w[csr dok diagonal]
 
     types.each do |type|
-      matrix = AbstractSparseMatrixFactory.new(raw_data, type)
+      matrix = SparseMatrixFactory.new(raw_data, type)
       matrix.power!(2)
       after_power = matrix.read_all!
 
