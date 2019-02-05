@@ -6,4 +6,14 @@ class SparseMatrix < Matrix
     raise NotImplementedError,
           'SparseMatrix is an abstract class please implement methods'
   end
+
+  def self.to_matrix
+    raise NotImplementedError,
+          'SparseMatrix is an abstract class please implement methods'
+  end
+
+  def self.to_a
+    raise NotImplementedError,
+          'SparseMatrix is an abstract class please implement methods'
+  end
 end
