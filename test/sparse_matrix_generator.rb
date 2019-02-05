@@ -1,14 +1,17 @@
+require 'matrix'
+
 class TestMatrixGenerator
   def self.generate_sparse_matrix(
       rows,
       cols,
-      ratio: 0.5,
+      ratio: 0.3,
       rand_max: 10
     )
     # Generate a random general sparse matrix with non-zero element
     # ratio < ratio
     arr = Array.new(rows, Array.new(cols, 0))
     arr.map! { |row| row.map { rand < ratio ? rand(rand_max) : 0 } }
+    Matrix.rows(arr)
   end
 
   def self.generate_diag_matrix(
@@ -27,5 +30,6 @@ class TestMatrixGenerator
         i >= s && i < e ? rand(rand_max) : 0
       end
     end
+    Matrix.rows(arr)
   end
 end
