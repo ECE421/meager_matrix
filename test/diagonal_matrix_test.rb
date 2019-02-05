@@ -37,15 +37,14 @@ class DiagonalMatrixTest < Test::Unit::TestCase
   end
 
   def test_extra_row_matrix
-    matrix = DiagonalMatrix.rows([[1, 0], [0, 2], [0, 0]])
-
-    assert_equal([[1, 0], [0, 2], [0, 0]], matrix.to_matrix)
-    assert_equal([1, 2], matrix.diagonal)
+    diagonal_matrix = DiagonalMatrix.rows([[1, 0], [0, 2], [0, 0]])
+    assert_equal([1, 2], diagonal_matrix.diagonal)
+    assert_equal([[1, 0], [0, 2], [0, 0]], diagonal_matrix.to_a)
   end
 
   def test_extra_col_matrix
-    matrix = DiagonalMatrix.rows([[1, 0, 0], [0, 2, 0]])
-    assert_equal([[1, 0, 0], [0, 2, 0]], matrix.to_matrix)
-    assert_equal([1, 2], matrix.diagonal)
+    diagonal_matrix = DiagonalMatrix.rows([[1, 0, 0], [0, 2, 0]])
+    assert_equal([1, 2], diagonal_matrix.diagonal)
+    assert_equal([[1, 0, 0], [0, 2, 0]], diagonal_matrix.to_a)
   end
 end

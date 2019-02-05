@@ -52,6 +52,19 @@ class DiagonalMatrix < SparseMatrix
     @diagonal.map! { |base| base**exponent }
   end
 
+  def to_a
+    i = 0
+    array = Array.new(@row_count, Array.new(@column_count, 0))
+    while i < @diagonal.length
+      row = Array.new(@column_count, 0)
+      row[i] = diagonal.at(i)
+      array[i] = row
+      puts(array)
+      i += 1
+    end
+    array
+  end
+
   def read_all
     @diagonal
   end
