@@ -46,6 +46,10 @@ class DiagonalMatrix < SparseMatrix
     Matrix.rows(matrix)
   end
 
+  def row_count
+    @row_count
+  end
+
   def power(exponent)
     raise(TypeError) unless exponent.is_a?(Numeric)
 
