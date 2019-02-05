@@ -73,8 +73,4 @@ class DiagonalMatrix < SparseMatrix
     end
     array
   end
-
-  def read_all
-    @diagonal
-  end
 end
