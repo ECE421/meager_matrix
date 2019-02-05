@@ -1,7 +1,9 @@
+require_relative '../lib/sparse_matrix'
+
 # A Diagonal Sparse Matrix
 # A sparse matrix that only contains non-zero values within the main diagonal.
 # With this knowledge heavy optimizations can be done.
-class DiagonalMatrix
+class DiagonalMatrix < SparseMatrix
   attr_reader(:diagonal)
 
   # Initialize a diagonal sparse matrix from a array based definition
