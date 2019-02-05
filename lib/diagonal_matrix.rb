@@ -32,6 +32,13 @@ class DiagonalMatrix < SparseMatrix
     new diagonal, num_row, num_col
   end
 
+  def self.diagonal(values, row_count = values.length, column_count = values.length)
+    new values, row_count, column_count
+  end
+
+  def transpose
+    new @diagonal, column_count, row_count
+  end
   #
   # Returns the DiagonalMatrix as a Matrix.
   #
