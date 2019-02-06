@@ -126,4 +126,19 @@ class DiagonalMatrix < SparseMatrix
   def DiagonalMatrix.scalar(n, value)
     new Array.new(n, 1), n, n
   end
+
+  def DiagonalMatrix.row_vector(row)
+    row = convert_to_array(row)
+    # TODO: need check that row only has one diagonal element
+    if row.length > 0
+      diagonal = [row[0]]
+    else
+      diagonal = []
+    end
+    new diagonal, 1, row.length
+  end
+
+  def DiagonalMatrix.column_vector(column)
+    row_vector(column).transpose
+  end
 end
