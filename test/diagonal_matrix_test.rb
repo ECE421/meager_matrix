@@ -9,7 +9,7 @@ class DiagonalMatrixTest < Test::Unit::TestCase
   def teardown
     # Do nothing
   end
-  
+
   def test_initialization
     assert_equal([0, 0], DiagonalMatrix.rows([[0, 0], [0, 0]]).diagonal)
   end

@@ -4,7 +4,8 @@ require_relative '../lib/sparse_matrix'
 # A sparse matrix that only contains non-zero values within the main diagonal.
 # With this knowledge heavy optimizations can be done.
 class DiagonalMatrix < SparseMatrix
-  attr_reader(:diagonal)
+  attr_reader :diagonal
+  attr_reader :rows
 
   def initialize(diagonal, row_count, column_count)
     @diagonal = diagonal
@@ -32,7 +33,9 @@ class DiagonalMatrix < SparseMatrix
     new diagonal, num_row, num_col
   end
 
-  def self.diagonal(values, row_count = values.length, column_count = values.length)
+  def self.diagonal(values,
+                    row_count = values.length,
+                    column_count = values.length)
     new values, row_count, column_count
   end
 
