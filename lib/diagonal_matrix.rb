@@ -76,6 +76,14 @@ class DiagonalMatrix < SparseMatrix
     end
   end
 
+  def []=(i, j, v)
+    if i != j
+      # TODO: is this proper
+      raise ArgumentError "Can only set values on the main diagonal for a DiagonalMatrix"
+    end
+    @diagonal[i] = v
+  end
+
   def power(exponent)
     raise(TypeError) unless exponent.is_a?(Numeric)
 
