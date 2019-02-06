@@ -16,6 +16,7 @@ class DiagonalMatrix < SparseMatrix
   # Initialize a diagonal sparse matrix from a array based definition
   # Note: non diagonal values will be dropped
   def self.rows(rows, copy = true)
+    rows = convert_to_array(rows, copy)
     diagonal = []
     raise(TypeError) unless rows.is_a?(Array)
 
