@@ -24,4 +24,12 @@ class SparseMatrix < Matrix
     raise NotImplementedError,
           'SparseMatrix is an abstract class please implement methods'
   end
+
+  def determinant
+    self.to_matrix.determinant
+  end
+
+  def eigensystem
+    self.to_matrix.eigensystem
+  end
 end
