@@ -28,7 +28,7 @@ class SparseMatrix < Matrix
   #
   # Returns a new SparseMatrix constructed from a Matrix
   #
-  def from_matrix
+  def from_matrix(matrix)
     raise NotImplementedError,
           'SparseMatrix is an abstract class please implement methods'
   end
@@ -48,7 +48,7 @@ class SparseMatrix < Matrix
   end
 
   def conjugate
-    to_matrix.conjugate
+    from_matrix(to_matrix.conjugate)
   end
 
   def rank
@@ -56,6 +56,10 @@ class SparseMatrix < Matrix
   end
 
   def minor(*param)
-    to_matrix.minor(*param)
+    from_matrix(to_matrix.minor(*param))
+  end
+
+  def first_minor(row, column)
+    from_matrix(to_matrix.first_minor(row, column))
   end
 end
