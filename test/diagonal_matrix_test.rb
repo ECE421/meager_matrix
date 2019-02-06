@@ -77,6 +77,6 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     diagonal_matrix = DiagonalMatrix.identity(3)
     assert_equal(3, diagonal_matrix.row_count)
     assert_equal(3, diagonal_matrix.column_count)
-    assert_equal([1, 1 , 1], diagonal_matrix.diagonal)
+    assert_equal([1, 1, 1], diagonal_matrix.diagonal)
   end
 end

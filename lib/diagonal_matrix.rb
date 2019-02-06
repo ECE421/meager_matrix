@@ -15,7 +15,7 @@ class DiagonalMatrix < SparseMatrix
 
   # Initialize a diagonal sparse matrix from a array based definition
   # Note: non diagonal values will be dropped
-  def DiagonalMatrix.rows(rows, copy = true)
+  def self.rows(rows, copy = true)
     rows = convert_to_array(rows, copy)
     diagonal = []
 
@@ -33,7 +33,9 @@ class DiagonalMatrix < SparseMatrix
     new diagonal, num_row, num_col
   end
 
-  def DiagonalMatrix.diagonal(*values)
+  # TODO: make Matrix.build
+
+  def self.diagonal(*values)
     new values, values.size, values.size
   end
 
@@ -79,8 +81,10 @@ class DiagonalMatrix < SparseMatrix
   def []=(i, j, v)
     if i != j
       # TODO: is this proper
-      raise ArgumentError "Can only set values on the main diagonal for a DiagonalMatrix"
+      raise ArgumentError "Can only set values on the main diagonal
+for a DiagonalMatrix"
     end
+
     @diagonal[i] = v
   end
 
@@ -116,37 +120,33 @@ class DiagonalMatrix < SparseMatrix
   end
 
   def symmetric?
-    if @column_count == @row_count
-      true
-    else
-      false
-    end
+    @column_count == @row_count
   end
 
   def trace
     @diagonal.inject(0, :+)
   end
 
-  def DiagonalMatrix.zero(row_count, column_count = row_count)
+  def self.zero(row_count, column_count = row_count)
     new Array.new([row_count, column_count].min, 0), row_count, column_count
   end
 
-  def DiagonalMatrix.scalar(n, value)
+  def self.scalar(n, value)
     new Array.new(n, 1), n, n
   end
 
-  def DiagonalMatrix.row_vector(row)
+  def self.row_vector(row)
     row = convert_to_array(row)
     # TODO: need check that row only has one diagonal element
-    if row.length > 0
-      diagonal = [row[0]]
-    else
-      diagonal = []
-    end
+    diagonal = if !empty?(row)
+                 [row[0]]
+               else
+                 []
+               end
     new diagonal, 1, row.length
   end
 
-  def DiagonalMatrix.column_vector(column)
+  def self.column_vector(column)
     row_vector(column).transpose
   end
 end

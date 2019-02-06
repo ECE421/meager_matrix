@@ -26,11 +26,11 @@ class SparseMatrix < Matrix
   end
 
   def determinant
-    self.to_matrix.determinant
+    to_matrix.determinant
   end
 
   def eigensystem
-    self.to_matrix.eigensystem
+    to_matrix.eigensystem
   end
 
   #
@@ -42,14 +42,14 @@ class SparseMatrix < Matrix
   end
 
   def lup
-    self.to_matrix.lup
+    to_matrix.lup
   end
 
   def conjugate
-    self.to_matrix.conjugate
+    to_matrix.conjugate
   end
 
   def rank
-    self.to_matrix.rank
+    to_matrix.rank
   end
 end
