@@ -18,12 +18,11 @@ class DiagonalMatrix < SparseMatrix
   def self.rows(rows, copy = true)
     rows = convert_to_array(rows, copy)
     diagonal = []
-    raise(TypeError) unless rows.is_a?(Array)
 
     num_col = 0
     num_row = rows.length
     rows.each_with_index do |row, i|
-      raise(TypeError) unless row.is_a?(Array)
+      row = convert_to_array(row, copy)
 
       num_col = row.length
 
