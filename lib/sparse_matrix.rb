@@ -32,4 +32,12 @@ class SparseMatrix < Matrix
   def eigensystem
     self.to_matrix.eigensystem
   end
+
+  #
+  # Returns a new SparseMatrix constructed from a Matrix
+  #
+  def from_matrix
+    raise NotImplementedError,
+          'SparseMatrix is an abstract class please implement methods'
+  end
 end
