@@ -56,4 +56,14 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     assert_equal([1, 2], transposed_matrix.diagonal)
     assert_equal([[1, 0], [0, 2], [0, 0]], transposed_matrix.to_a)
   end
+
+  def test_list_accessor
+    diagonal_matrix = DiagonalMatrix.rows([[1, 0, 0], [0, 2, 0]])
+    assert_equal(1, diagonal_matrix[0, 0])
+    assert_equal(0, diagonal_matrix[0, 1])
+    assert_equal(0, diagonal_matrix[0, 2])
+    assert_equal(0, diagonal_matrix[1, 0])
+    assert_equal(2, diagonal_matrix[1, 1])
+    assert_equal(0, diagonal_matrix[1, 2])
+  end
 end

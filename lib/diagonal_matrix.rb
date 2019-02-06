@@ -70,6 +70,13 @@ class DiagonalMatrix < SparseMatrix
     @row_count
   end
 
+  def [](i, j)
+    if i == j
+      @diagonal[i]
+    else
+      0
+    end
+  end
   def power(exponent)
     raise(TypeError) unless exponent.is_a?(Numeric)
 
