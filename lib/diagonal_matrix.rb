@@ -39,6 +39,7 @@ class DiagonalMatrix < SparseMatrix
   def transpose
     new @diagonal, column_count, row_count
   end
+
   #
   # Returns the DiagonalMatrix as a Matrix.
   #
