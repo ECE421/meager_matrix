@@ -9,9 +9,7 @@ class DiagonalMatrixTest < Test::Unit::TestCase
   def teardown
     # Do nothing
   end
-
-  # Test the matrix initialization code
-  # Based on https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_(CSR,_CRS_or_Yale_format)
+  
   def test_initialization
     assert_equal([0, 0], DiagonalMatrix.rows([[0, 0], [0, 0]]).diagonal)
   end

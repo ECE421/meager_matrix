@@ -9,3 +9,6 @@ Metrics/CyclomaticComplexity:
 
 Metrics/PerceivedComplexity:
   Enabled: false
+
+Metris/ClassLength:
+  Enabled: false
