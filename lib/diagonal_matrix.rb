@@ -124,4 +124,8 @@ class DiagonalMatrix < SparseMatrix
   def DiagonalMatrix.zero(row_count, column_count = row_count)
     new Array.new([row_count, column_count].min, 0), row_count, column_count
   end
+
+  def DiagonalMatrix.identity(n)
+    new Array.new(n, 1), n, n
+  end
 end
