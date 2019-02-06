@@ -25,20 +25,22 @@ class SparseMatrix < Matrix
           'SparseMatrix is an abstract class please implement methods'
   end
 
-  def determinant
-    to_matrix.determinant
-  end
-
-  def eigensystem
-    to_matrix.eigensystem
-  end
-
   #
   # Returns a new SparseMatrix constructed from a Matrix
   #
   def from_matrix
     raise NotImplementedError,
           'SparseMatrix is an abstract class please implement methods'
+  end
+
+  # TODO: these methods need to convert back
+  # TODO: to there original SparseMatrix type
+  def determinant
+    to_matrix.determinant
+  end
+
+  def eigensystem
+    to_matrix.eigensystem
   end
 
   def lup
@@ -51,5 +53,9 @@ class SparseMatrix < Matrix
 
   def rank
     to_matrix.rank
+  end
+
+  def minor(*param)
+    to_matrix.minor(*param)
   end
 end
