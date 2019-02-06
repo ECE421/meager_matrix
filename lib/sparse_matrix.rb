@@ -62,4 +62,9 @@ class SparseMatrix < Matrix
   def first_minor(row, column)
     from_matrix(to_matrix.first_minor(row, column))
   end
+
+  def laplace_expansion(row: nil, column: nil)
+    num = row || column
+    to_matrix.laplace_expansion(num)
+  end
 end
