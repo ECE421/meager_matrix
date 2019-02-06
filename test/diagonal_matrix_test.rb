@@ -72,4 +72,11 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     assert_equal(3, diagonal_matrix.trace)
     assert_equal([1, 2], diagonal_matrix.diagonal)
   end
+
+  def test_identity
+    diagonal_matrix = DiagonalMatrix.identity(3)
+    assert_equal(3, diagonal_matrix.row_count)
+    assert_equal(3, diagonal_matrix.column_count)
+    assert_equal([1, 1 , 1], diagonal_matrix.diagonal)
+  end
 end
