@@ -49,4 +49,11 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     assert_equal(2, diagonal_matrix.row_count)
     assert_equal(3, diagonal_matrix.column_count)
   end
+
+  def test_transpose
+    diagonal_matrix = DiagonalMatrix.rows([[1, 0, 0], [0, 2, 0]])
+    transposed_matrix = diagonal_matrix.transpose
+    assert_equal([1, 2], transposed_matrix.diagonal)
+    assert_equal([[1, 0], [0, 2], [0, 0]], transposed_matrix.to_a)
+  end
 end

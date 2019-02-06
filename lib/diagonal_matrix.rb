@@ -39,8 +39,12 @@ class DiagonalMatrix < SparseMatrix
     new values, row_count, column_count
   end
 
+  def new_matrix(diagonal, row_count, column_count)
+    self.class.send(:new, diagonal, row_count, column_count)
+  end
+
   def transpose
-    new @diagonal, column_count, row_count
+    new_matrix @diagonal, @column_count, @row_count
   end
 
   #
