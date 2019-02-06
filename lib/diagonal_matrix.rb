@@ -120,4 +120,8 @@ class DiagonalMatrix < SparseMatrix
   def trace
     @diagonal.inject(0, :+)
   end
+
+  def DiagonalMatrix.zero(row_count, column_count = row_count)
+    new Array.new([row_count, column_count].min, 0), row_count, column_count
+  end
 end
