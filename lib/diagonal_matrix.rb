@@ -96,4 +96,28 @@ class DiagonalMatrix < SparseMatrix
     end
     array
   end
+
+  def lower_triangular?
+    true
+  end
+
+  def upper_triangular?
+    true
+  end
+
+  def diagonal?
+    true
+  end
+
+  def symmetric?
+    if @column_count == @row_count
+      true
+    else
+      false
+    end
+  end
+
+  def trace
+    @diagonal.inject(0, :+)
+  end
 end

@@ -66,4 +66,10 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     assert_equal(2, diagonal_matrix[1, 1])
     assert_equal(0, diagonal_matrix[1, 2])
   end
+
+  def test_trace
+    diagonal_matrix = DiagonalMatrix.rows([[1, 0, 0], [0, 2, 0]])
+    assert_equal(3, diagonal_matrix.trace)
+    assert_equal([1, 2], diagonal_matrix.diagonal)
+  end
 end
