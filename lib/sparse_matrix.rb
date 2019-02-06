@@ -40,4 +40,16 @@ class SparseMatrix < Matrix
     raise NotImplementedError,
           'SparseMatrix is an abstract class please implement methods'
   end
+
+  def lup
+    self.to_matrix.lup
+  end
+
+  def conjugate
+    self.to_matrix.conjugate
+  end
+
+  def rank
+    self.to_matrix.rank
+  end
 end
