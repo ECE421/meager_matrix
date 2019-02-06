@@ -12,3 +12,13 @@ Metrics/PerceivedComplexity:
 
 Metris/ClassLength:
   Enabled: false
+
+Lint/UnusedMethodArgument:
+  Exclude:
+    - lib/sparse_matrix.rb
+    - lib/diagonal_matrix.rb
+
+Naming/UncommunicativeMethodParamName:
+  Exclude:
+    - lib/diagonal_matrix.rb
+

@@ -66,7 +66,7 @@ class DiagonalMatrix < SparseMatrix
   #
   # Returns the number of rows.
   #
-  def row_count
+  def row_count # rubocop:disable  Style/TrivialAccessors
     @row_count
   end
 
