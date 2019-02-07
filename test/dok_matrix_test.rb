@@ -18,7 +18,7 @@ class DOKMatrixTest < Test::Unit::TestCase
   end
 
   def test_initialize
-    matrix = DOKMatrix.new(
+    matrix = DOKMatrix.rows(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
     assert_equal({ '1,0': 5, '1,1': 8, '2,2': 3, '3,1': 6 }, matrix.dict)
