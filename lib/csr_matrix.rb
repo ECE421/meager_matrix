@@ -11,12 +11,8 @@ class CSRMatrix < SparseMatrix
     @ja_array = ja_array
   end
 
-  def self.rows(rows)
-    if rows.is_a?(Matrix)
-      arr = rows.to_a()
-    else
-      arr = rows
-    end
+  def self.rows(rows, column_count = rows[0].length)
+    arr = rows.is_a?(Matrix) ? rows.to_a : rows
 
     a_array = []
     ia_array = [0]
