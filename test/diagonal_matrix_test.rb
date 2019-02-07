@@ -68,7 +68,7 @@ class DiagonalMatrixTest < Test::Unit::TestCase
   end
 
   def test_trace
-    diagonal_matrix = DiagonalMatrix.rows([[1, 0, 0], [0, 2, 0]])
+    diagonal_matrix = DiagonalMatrix.rows([[1, 0], [0, 2]])
     assert_equal(3, diagonal_matrix.trace)
     assert_equal([1, 2], diagonal_matrix.diagonal)
   end
