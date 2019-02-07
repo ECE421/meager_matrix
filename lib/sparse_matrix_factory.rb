@@ -1,26 +1,20 @@
-# Abstract factory for building sparse matrix
+# Abstract Factory Superclass
 class SparseMatrixFactory
-  def initialize(*args)
-    raise(ArgumentError) unless args.length == 2
+  def self.build(source, type = CSRMatrixFactory.new)
+    raise TypeError unless type.is_a?(SparseMatrixFactory)
 
-    raw_data = args[0]
-    type = args[1]
-    if type == 'csr'
-      @matrix = CSRMatrix.rows(raw_data)
-    elsif type == 'dok'
-      @matrix = DOKMatrix.rows(raw_data)
-    elsif type == 'diagonal'
-      @matrix = DiagonalMatrix.rows(raw_data)
+    if source.is_a?(Matrix)
+      type.build_from_matrix(source)
+    elsif source.is_a?(Array)
+      type.build_from_array(source)
     else
-      raise(ArgumentError, "Unknown type #{type}")
+      throw(TypeError)
     end
   end
 
-  def read_all!
-    @matrix.read_all
-  end
+  protected
 
-  def power!(exponent)
-    @matrix.power(exponent)
-  end
+  def build_from_matrix(source_matrix) end
+
+  def build_from_array(source_array) end
 end
