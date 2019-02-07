@@ -9,3 +9,13 @@ Metrics/CyclomaticComplexity:
 
 Metrics/PerceivedComplexity:
   Enabled: false
+
+Metris/ClassLength:
+  Enabled: false
+
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  Exclude:
+    - lib/diagonal_matrix.rb

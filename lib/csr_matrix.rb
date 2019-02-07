@@ -5,28 +5,39 @@ class CSRMatrix < SparseMatrix
   attr_reader(:a_array, :ia_array, :ja_array)
 
   # Basic initialization. Assumes matrix input is properly formatted.
-  def initialize(*args)
-    @a_array = []
-    @ia_array = [0]
-    @ja_array = []
+  def initialize(a_array, ia_array, ja_array)
+    @a_array = a_array
+    @ia_array = ia_array
+    @ja_array = ja_array
+  end
 
-    return unless args.length.nonzero?
+  def self.rows(rows)
+    if rows.is_a?(Matrix)
+      arr = rows.to_a()
+    else
+      arr = rows
+    end
 
-    matrix = args[0]
-    matrix.each do |row|
+    a_array = []
+    ia_array = [0]
+    ja_array = []
+
+    arr.each do |row|
       nonzero_count = 0
-      raise(TypeError) unless row.is_a?(Array)
 
       row.each_with_index do |value, index|
         next unless value.nonzero?
 
         nonzero_count += 1
-        @a_array.insert(@a_array.length, value)
-        @ja_array.insert(@ja_array.length, index)
+        a_array.insert(a_array.length, value)
+        ja_array.insert(ja_array.length, index)
       end
-      @ia_array.insert(@ia_array.length,
-                       @ia_array[@ia_array.length - 1] + nonzero_count)
+      ia_array.insert(
+        ia_array.length,
+        ia_array[ia_array.length - 1] + nonzero_count
+      )
     end
+    new a_array, ia_array, ja_array
   end
 
   def read_all

@@ -1,38 +1,84 @@
 require 'test/unit'
 require_relative '../lib/diagonal_matrix'
+require_relative 'sparse_matrix_generator'
 
 class DiagonalMatrixTest < Test::Unit::TestCase
-  # Called before every test method runs.
-  # Can be used to set up fixture information.
   def setup
-    # Do nothing
+    @matrix = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
+    @sparse_matrix = SparseMatrixFactory.new(@matrix, 'diagonal')
   end
 
-  # Called after every test method runs.
-  # Can be used to tear down fixture information.
   def teardown
     # Do nothing
   end
 
-  # Test the matrix initialization code
-  # Based on https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_(CSR,_CRS_or_Yale_format)
   def test_initialization
-    assert_equal([0, 0], DiagonalMatrix.new([[0, 0], [0, 0]]).diagonal)
+    assert_equal([0, 0], DiagonalMatrix.rows([[0, 0], [0, 0]]).diagonal)
   end
 
-  def test_initialization_empty
-    assert_equal([], DiagonalMatrix.new([]).diagonal)
+  def test_rows
+    diagonal_matrix = DiagonalMatrix.rows([[0, 0], [0, 0]])
+    assert_true(diagonal_matrix.is_a?(DiagonalMatrix))
+    assert_true(diagonal_matrix.is_a?(SparseMatrix))
+    assert_true(diagonal_matrix.is_a?(Matrix))
+    assert_equal([0, 0], diagonal_matrix.diagonal)
+    assert_equal([[0, 0], [0, 0]], diagonal_matrix.to_a)
+    assert_equal(2, diagonal_matrix.column_count)
+    assert_equal(2, diagonal_matrix.row_count)
+  end
+
+  def test_to_matrix
+    diagonal_matrix = DiagonalMatrix.rows([[0, 0], [0, 0]])
+    matrix = diagonal_matrix.to_matrix
+    assert_false(matrix.is_a?(DiagonalMatrix))
+    assert_false(matrix.is_a?(SparseMatrix))
+    assert_true(matrix.is_a?(Matrix))
+    assert_equal([[0, 0], [0, 0]], matrix.to_a)
   end
 
   def test_extra_row_matrix
-    matrix = DiagonalMatrix.new([[1, 0], [0, 2], [0, 0]])
-    assert_equal([[1, 0], [0, 2], [0, 0]], matrix.to_matrix)
-    assert_equal([1, 2], matrix.diagonal)
+    diagonal_matrix = DiagonalMatrix.rows([[1, 0], [0, 2], [0, 0]])
+    assert_equal([1, 2], diagonal_matrix.diagonal)
+    assert_equal([[1, 0], [0, 2], [0, 0]], diagonal_matrix.to_a)
+    assert_equal(3, diagonal_matrix.row_count)
+    assert_equal(2, diagonal_matrix.column_count)
   end
 
   def test_extra_col_matrix
-    matrix = DiagonalMatrix.new([[1, 0, 0], [0, 2, 0]])
-    assert_equal([[1, 0, 0], [0, 2, 0]], matrix.to_matrix)
-    assert_equal([1, 2], matrix.diagonal)
+    diagonal_matrix = DiagonalMatrix.rows([[1, 0, 0], [0, 2, 0]])
+    assert_equal([1, 2], diagonal_matrix.diagonal)
+    assert_equal([[1, 0, 0], [0, 2, 0]], diagonal_matrix.to_a)
+    assert_equal(2, diagonal_matrix.row_count)
+    assert_equal(3, diagonal_matrix.column_count)
+  end
+
+  def test_transpose
+    diagonal_matrix = DiagonalMatrix.rows([[1, 0, 0], [0, 2, 0]])
+    transposed_matrix = diagonal_matrix.transpose
+    assert_equal([1, 2], transposed_matrix.diagonal)
+    assert_equal([[1, 0], [0, 2], [0, 0]], transposed_matrix.to_a)
+  end
+
+  def test_list_accessor
+    diagonal_matrix = DiagonalMatrix.rows([[1, 0, 0], [0, 2, 0]])
+    assert_equal(1, diagonal_matrix[0, 0])
+    assert_equal(0, diagonal_matrix[0, 1])
+    assert_equal(0, diagonal_matrix[0, 2])
+    assert_equal(0, diagonal_matrix[1, 0])
+    assert_equal(2, diagonal_matrix[1, 1])
+    assert_equal(0, diagonal_matrix[1, 2])
+  end
+
+  def test_trace
+    diagonal_matrix = DiagonalMatrix.rows([[1, 0, 0], [0, 2, 0]])
+    assert_equal(3, diagonal_matrix.trace)
+    assert_equal([1, 2], diagonal_matrix.diagonal)
+  end
+
+  def test_identity
+    diagonal_matrix = DiagonalMatrix.identity(3)
+    assert_equal(3, diagonal_matrix.row_count)
+    assert_equal(3, diagonal_matrix.column_count)
+    assert_equal([1, 1, 1], diagonal_matrix.diagonal)
   end
 end

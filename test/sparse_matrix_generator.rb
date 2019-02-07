@@ -1,6 +1,6 @@
 require 'matrix'
 
-class TestMatrixGenerator
+class SparseMatrixGenerator
   def self.generate_sparse_matrix(
       rows,
       cols,
