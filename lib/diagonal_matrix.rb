@@ -55,6 +55,17 @@ class DiagonalMatrix < SparseMatrix
       end
     end
   end
+
+  #
+  # quick and dirty optimizations go below here
+  #
+  def upper_triangular?
+    true
+  end
+
+  def lower_triangular?
+    true
+  end
 end
 
 d = DiagonalMatrix.rows([[1, 0], [0, 2], [0, 0]])
@@ -62,3 +73,4 @@ d = DiagonalMatrix.rows([[1, 0], [0, 2], [0, 0]])
 puts(d.collect{ |e| e**2 }.to_a.to_s)
 puts(d.transpose.to_a.to_s)
 puts(d.to_a.to_s)
+puts(d.upper_triangular?)
