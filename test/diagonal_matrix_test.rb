@@ -1,11 +1,12 @@
 require 'test/unit'
 require_relative '../lib/diagonal_matrix'
+require_relative 'sparse_matrix_generator'
 
 class DiagonalMatrixTest < Test::Unit::TestCase
   # Called before every test method runs.
   # Can be used to set up fixture information.
   def setup
-    @matrix = TestMatrixGenerator.generate_sparse_matrix(4, 4)
+    @matrix = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
     @sparse_matrix = SparseMatrixFactory.new(@matrix, 'diagonal')
   end
 

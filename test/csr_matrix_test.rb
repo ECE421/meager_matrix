@@ -1,11 +1,13 @@
 require 'test/unit'
 require_relative '../lib/csr_matrix'
+require_relative 'sparse_matrix_generator'
+require_relative '../../lib/sparse_matrix_factory'
 
 class CsrMatrixTest < Test::Unit::TestCase
   # Called before every test method runs.
   # Can be used to set up fixture information.
   def setup
-    @matrix = TestMatrixGenerator.generate_sparse_matrix(4, 4)
+    @matrix = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
     @sparse_matrix = SparseMatrixFactory.new(@matrix, 'csr')
   end
 
@@ -18,7 +20,7 @@ class CsrMatrixTest < Test::Unit::TestCase
   # Test the matrix initialization code
   # Based on https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_(CSR,_CRS_or_Yale_format)
   def test_initialization
-    matrix = CSRMatrix.new(
+    matrix = CSRMatrix.rows(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
     assert_equal([5, 8, 3, 6], matrix.a_array)
@@ -26,15 +28,8 @@ class CsrMatrixTest < Test::Unit::TestCase
     assert_equal([0, 1, 2, 1], matrix.ja_array)
   end
 
-  def test_initialization_no_args
-    matrix = CSRMatrix.new
-    assert_equal([], matrix.a_array)
-    assert_equal([0], matrix.ia_array)
-    assert_equal([], matrix.ja_array)
-  end
-
   def test_power_type_error
-    matrix = CSRMatrix.new(
+    matrix = CSRMatrix.rows(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
     assert_raises(TypeError) { matrix.power('2') }

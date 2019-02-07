@@ -6,7 +6,7 @@ class SparseMatrixFactory
     raw_data = args[0]
     type = args[1]
     if type == 'csr'
-      @matrix = CSRMatrix.new(raw_data)
+      @matrix = CSRMatrix.rows(raw_data)
     elsif type == 'dok'
       @matrix = DOKMatrix.new(raw_data)
     elsif type == 'diagonal'

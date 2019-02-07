@@ -2,7 +2,7 @@ require 'matrix'
 
 # Abstract class definition of a sparse matrix
 class SparseMatrix < Matrix
-  def self.rows(rows, copy = true)
+  def self.rows(rows)
     raise NotImplementedError,
           'SparseMatrix is an abstract class please implement methods'
   end

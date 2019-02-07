@@ -12,3 +12,6 @@ Metrics/PerceivedComplexity:
 
 Metris/ClassLength:
   Enabled: false
+
+Lint/UnusedMethodArgument:
+  Enabled: false
