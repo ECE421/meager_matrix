@@ -6,6 +6,7 @@ class DOKMatrix < SparseMatrix
 
   def initialize(rows, column_count = rows[0].size)
     @dict = {}
+    @row_count = 0
 
     rows.each_with_index do |row, i|
       raise(TypeError) unless row.is_a?(Array)
