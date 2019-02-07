@@ -1,25 +1,17 @@
+require 'matrix'
 require_relative '../lib/sparse_matrix'
 
 # Dictionary Of Keys (DOK) sparse matrix
 class DOKMatrix < SparseMatrix
   attr_reader(:dict)
 
-  def initialize(rows, column_count = rows[0].size)
-    @dict = {}
-    @row_count = 0
+  def new_matrix(dict, row_count, column_count) # :nodoc:
+    self.class.send(:new, dict, row_count, column_count) # bypass privacy of Matrix.new
+  end
 
-    rows.each_with_index do |row, i|
-      raise(TypeError) unless row.is_a?(Array)
-
-      @row_count = row.length
-
-      row.each_with_index do |value, j|
-        raise(TypeError) unless value.is_a?(Numeric)
-        next unless value.nonzero?
-
-        @dict[:"#{i},#{j}"] = value
-      end
-    end
+  def initialize(dict, row_count, column_count)
+    @dict = dict
+    @row_count = row_count
     @column_count = column_count
   end
 
@@ -28,15 +20,28 @@ class DOKMatrix < SparseMatrix
   end
 
   def self.rows(rows, copy = true)
+    # array conversion
     rows = convert_to_array(rows, copy)
     rows.map! do |row|
       convert_to_array(row, copy)
     end
-    size = (rows[0] || []).size
-    rows.each do |row|
-      raise ErrDimensionMismatch, "row size differs (#{row.size} should be #{size})" unless row.size == size
+
+    # compute into a dictionary
+    row_count = rows.length
+    column_count = (rows[0] || []).size
+    dict = {}
+    rows.each_with_index do |row, i|
+      raise ArgumentError, "row size differs (#{row.size} should be #{column_count})" unless row.size == column_count
+
+      row.each_with_index do |value, j|
+        raise(TypeError) unless value.is_a?(Numeric)
+        next unless value.nonzero?
+
+        dict[:"#{i},#{j}"] = value
+      end
     end
-    new rows, size
+
+    new dict, row_count, column_count
   end
 
   def read_all
@@ -88,5 +93,16 @@ class DOKMatrix < SparseMatrix
 
   def to_matrix
     Matrix.rows(to_a)
+  end
+
+  def transpose
+    new_dict = {}
+    @dict.each do |key, val|
+      coords = key.to_s.split(',')
+      row = coords[1].to_i
+      col = coords[0].to_i
+      new_dict[:"#{row},#{col}"] = val
+    end
+    new_matrix new_dict, @column_count, @row_count
   end
 end
