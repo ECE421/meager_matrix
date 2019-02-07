@@ -149,4 +149,6 @@ for a DiagonalMatrix"
   def self.column_vector(column)
     row_vector(column).transpose
   end
+
+  # TODO: empty implementation
 end

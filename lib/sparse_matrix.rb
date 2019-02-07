@@ -2,10 +2,10 @@ require 'matrix'
 
 # Abstract class definition of a sparse matrix
 class SparseMatrix < Matrix
-  def self.rows(rows, copy = true)
-    raise NotImplementedError,
-          'SparseMatrix is an abstract class please implement methods'
-  end
+  # def self.rows(rows, copy = true)
+  #   raise NotImplementedError,
+  #         'SparseMatrix is an abstract class please implement methods'
+  # end
 
   def self.to_matrix
     raise NotImplementedError,
@@ -17,13 +17,17 @@ class SparseMatrix < Matrix
           'SparseMatrix is an abstract class please implement methods'
   end
 
+  def transpose
+    return self.class.empty(column_count, 0) if row_count.zero?
+    new_matrix @rows.to_ajec.transpose, row_count
+  end
   #
   # Returns the number of rows.
   #
-  def row_count
-    raise NotImplementedError,
-          'SparseMatrix is an abstract class please implement methods'
-  end
+  # def row_count
+  #   raise NotImplementedError,
+  #         'SparseMatrix is an abstract class please implement methods'
+  # end
 
   #
   # Returns a new SparseMatrix constructed from a Matrix
