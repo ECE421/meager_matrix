@@ -11,19 +11,19 @@ class CSRMatrix < SparseMatrix
     @ja_array = ja_array
   end
 
-  # TODO: can we override rows in the superclass?
-  # the rows argument makes no sense in the context of sparse matrices
-  def self.rows(rows, copy = true)
-    return unless args.length.nonzero?
+  def self.rows(rows)
+    if rows.is_a?(Matrix)
+      arr = rows.to_a()
+    else
+      arr = rows
+    end
 
     a_array = []
     ia_array = [0]
     ja_array = []
 
-    matrix = args[0]
-    matrix.each do |row|
+    arr.each do |row|
       nonzero_count = 0
-      raise(TypeError) unless row.is_a?(Array)
 
       row.each_with_index do |value, index|
         next unless value.nonzero?

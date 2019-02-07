@@ -1,7 +1,7 @@
 require 'test/unit'
 require_relative '../lib/csr_matrix'
 require_relative 'sparse_matrix_generator'
-require_relative '../../lib/sparse_matrix_factory'
+require_relative '../lib/sparse_matrix_factory'
 
 class CsrMatrixTest < Test::Unit::TestCase
   # Called before every test method runs.
