@@ -85,4 +85,8 @@ class DOKMatrix < SparseMatrix
     end
     array
   end
+
+  def to_matrix
+    Matrix.rows(to_a)
+  end
 end
