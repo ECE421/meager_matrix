@@ -15,3 +15,7 @@ Metris/ClassLength:
 
 Lint/UnusedMethodArgument:
   Enabled: false
+
+Naming/UncommunicativeMethodParamName:
+  Exclude:
+    - lib/diagonal_matrix.rb

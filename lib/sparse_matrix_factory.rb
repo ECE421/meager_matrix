@@ -10,7 +10,7 @@ class SparseMatrixFactory
     elsif type == 'dok'
       @matrix = DOKMatrix.new(raw_data)
     elsif type == 'diagonal'
-      @matrix = DiagonalMatrix.new(raw_data)
+      @matrix = DiagonalMatrix.rows(raw_data)
     else
       raise(ArgumentError, "Unknown type #{type}")
     end
