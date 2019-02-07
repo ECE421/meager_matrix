@@ -8,7 +8,7 @@ class SparseMatrixFactory
     if type == 'csr'
       @matrix = CSRMatrix.rows(raw_data)
     elsif type == 'dok'
-      @matrix = DOKMatrix.new(raw_data)
+      @matrix = DOKMatrix.rows(raw_data)
     elsif type == 'diagonal'
       @matrix = DiagonalMatrix.rows(raw_data)
     else

@@ -4,14 +4,10 @@ require_relative '../lib/sparse_matrix'
 class DOKMatrix < SparseMatrix
   attr_reader(:dict)
 
-  def initialize(*args)
+  def initialize(rows, column_count = rows[0].size)
     @dict = {}
 
-    return unless args.length.nonzero?
-    raise(TypeError) unless args[0].is_a?(Array)
-
-    matrix = args[0]
-    matrix.each_with_index do |row, i|
+    rows.each_with_index do |row, i|
       raise(TypeError) unless row.is_a?(Array)
 
       row.each_with_index do |value, j|
@@ -21,6 +17,19 @@ class DOKMatrix < SparseMatrix
         @dict[:"#{i},#{j}"] = value
       end
     end
+    @column_count = column_count
+  end
+
+  def self.rows(rows, copy = true)
+    rows = convert_to_array(rows, copy)
+    rows.map! do |row|
+      convert_to_array(row, copy)
+    end
+    size = (rows[0] || []).size
+    rows.each do |row|
+      raise ErrDimensionMismatch, "row size differs (#{row.size} should be #{size})" unless row.size == size
+    end
+    new rows, size
   end
 
   def read_all

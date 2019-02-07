@@ -1,5 +1,6 @@
 require 'test/unit'
 require_relative '../lib/dok_matrix'
+require_relative '../lib/sparse_matrix_factory'
 require_relative 'sparse_matrix_generator'
 
 class DOKMatrixTest < Test::Unit::TestCase
@@ -7,7 +8,7 @@ class DOKMatrixTest < Test::Unit::TestCase
   # Can be used to set up fixture information.
   def setup
     @matrix = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
-    @sparse_matrix = SparseMatrixFactory.new(@matrix, 'dok')
+    @sparse_matrix = SparseMatrixFactory.new([[]], "dok")
   end
 
   # Called after every test method runs. Can be used to tear
@@ -24,12 +25,12 @@ class DOKMatrixTest < Test::Unit::TestCase
   end
 
   def test_initialize_no_args
-    matrix = DOKMatrix.new
+    matrix = DOKMatrix.rows([[]])
     assert_equal({}, matrix.dict)
   end
 
   def test_get
-    matrix = DOKMatrix.new(
+    matrix = DOKMatrix.rows(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
     assert_equal(8, matrix.read(1, 1))
@@ -37,7 +38,7 @@ class DOKMatrixTest < Test::Unit::TestCase
   end
 
   def test_insert
-    matrix = DOKMatrix.new(
+    matrix = DOKMatrix.rows(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
 
@@ -53,7 +54,7 @@ class DOKMatrixTest < Test::Unit::TestCase
   end
 
   def test_insert_zero
-    matrix = DOKMatrix.new(
+    matrix = DOKMatrix.rows(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
 
@@ -69,12 +70,12 @@ class DOKMatrixTest < Test::Unit::TestCase
   end
 
   def test_insert_invalid_value
-    matrix = DOKMatrix.new
+    matrix = DOKMatrix.rows([[]])
     assert_raises(TypeError) { matrix.insert(0, 0, 'a') }
   end
 
   def test_insert_invalid_index
-    matrix = DOKMatrix.new
+    matrix = DOKMatrix.rows([[]])
     assert_raises(ArgumentError) { matrix.insert(-1, -1, 10) }
   end
 
