@@ -23,7 +23,7 @@ class DOKMatrix < SparseMatrix
     @column_count = column_count
   end
 
-  def row_count
+  def row_count # rubocop:disable  Style/TrivialAccessors
     @row_count
   end
 
