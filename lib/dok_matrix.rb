@@ -22,6 +22,10 @@ class DOKMatrix < SparseMatrix
     @column_count = column_count
   end
 
+  def row_count
+    @row_count
+  end
+
   def self.rows(rows, copy = true)
     rows = convert_to_array(rows, copy)
     rows.map! do |row|
