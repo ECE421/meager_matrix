@@ -10,7 +10,7 @@ Metrics/CyclomaticComplexity:
 Metrics/PerceivedComplexity:
   Enabled: false
 
-Metris/ClassLength:
+Metrics/ClassLength:
   Enabled: false
 
 Lint/UnusedMethodArgument:
