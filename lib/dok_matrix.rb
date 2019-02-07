@@ -70,4 +70,19 @@ class DOKMatrix < SparseMatrix
 
     @dict.transform_values! { |base| base**exponent }
   end
+
+  def to_a
+    i = 0
+    array = Array.new(@row_count, Array.new(@column_count, 0))
+    while i < @row_count
+      row = Array.new(@column_count, 0)
+      row.each_with_index do |_, j|
+        row[j] = self[i, j]
+      end
+      array[i] = row
+      puts(array)
+      i += 1
+    end
+    array
+  end
 end
