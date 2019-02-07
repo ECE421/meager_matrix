@@ -8,7 +8,7 @@ class CsrMatrixTest < Test::Unit::TestCase
   # Can be used to set up fixture information.
   def setup
     @matrix = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
-    @sparse_matrix = SparseMatrixFactory.new(@matrix, 'csr')
+    @sparse_matrix = SparseMatrixFactory.build(@matrix, CSRMatrixFactory.new)
   end
 
   # Called after every test method runs. Can be used to tear
