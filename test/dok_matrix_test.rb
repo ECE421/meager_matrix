@@ -8,7 +8,7 @@ class DOKMatrixTest < Test::Unit::TestCase
   # Can be used to set up fixture information.
   def setup
     @matrix = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
-    @sparse_matrix = SparseMatrixFactory.new([[]], "dok")
+    @sparse_matrix = SparseMatrixFactory.new([[]], 'dok')
   end
 
   # Called after every test method runs. Can be used to tear

@@ -9,6 +9,7 @@ class DOKMatrix < SparseMatrix
 
     rows.each_with_index do |row, i|
       raise(TypeError) unless row.is_a?(Array)
+
       @row_count = row.length
 
       row.each_with_index do |value, j|
@@ -64,7 +65,4 @@ class DOKMatrix < SparseMatrix
 
     @dict.transform_values! { |base| base**exponent }
   end
-end
-if {}[:"2,2"].nil?
-  puts(0)
 end

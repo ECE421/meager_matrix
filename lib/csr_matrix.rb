@@ -12,11 +12,7 @@ class CSRMatrix < SparseMatrix
   end
 
   def self.rows(rows)
-    if rows.is_a?(Matrix)
-      arr = rows.to_a()
-    else
-      arr = rows
-    end
+    arr = rows.is_a?(Matrix) ? rows.to_a : rows
 
     a_array = []
     ia_array = [0]
