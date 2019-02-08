@@ -1,4 +1,3 @@
-require 'matrix'
 require_relative '../lib/sparse_matrix'
 
 # Dictionary Of Keys (DOK) sparse matrix
@@ -31,7 +30,7 @@ class DOKMatrix < SparseMatrix
         raise(TypeError) unless value.is_a?(Numeric)
         next unless value.nonzero?
 
-        dict[:"#{i},#{j}"] = value
+        dict[[i,j]] = value
       end
     end
     new dict, row_count, column_count
@@ -41,12 +40,73 @@ class DOKMatrix < SparseMatrix
     @dict.values
   end
 
-  def [](i, j)
-    @dict[:"#{i},#{j}"]
+  def [](row, col)
+    @dict.key?([row, col]) ? @dict[[row,col]] : 0
+  end
+
+  def []=(row, col, value)
+    raise(ArgumentError) unless row >= 0 && col >= 0
+    raise(TypeError) unless value.is_a?(Numeric) || value.nil?
+    return delete(row, col) unless !value.nil? && value.nonzero?
+
+    insert(row, col, value)
+  end
+
+
+  def **(exponent)
+    raise(TypeError) unless exponent.is_a?(Numeric)
+    super ** exponent
+  end
+
+  def *(rhs)
+    case rhs
+    when Numeric
+      dict = @dict.transform_values { |v| v * rhs }
+      new_matrix dict, @row_count, @column_count
+    when Matrix
+      super rhs
+    else
+      Matrix.raise NotImplementedError, "*", self.class, rhs.class
+    end
+  end
+
+  def /(rhs)
+    case rhs
+    when Numeric
+      dict = @dict.transform_values { |v| v / rhs }
+      new_matrix dict, @row_count, @column_count
+    when Matrix
+      super rhs
+    else
+      Matrix.raise NotImplementedError, "/", self.class, rhs.class
+    end
+  end
+
+
+  def +(rhs)
+    case rhs
+    when Numeric
+      Matrix.Raise ErrOperationNotDefined, "+", self.class, rhs.class
+    when Matrix
+      super rhs
+    else
+      Matrix.raise NotImplementedError, "+", self.class, rhs.class
+    end
+  end
+
+  def -(rhs)
+    case rhs
+    when Numeric
+      Matrix.Raise ErrOperationNotDefined, "-", self.class, rhs.class
+    when Matrix
+      super rhs
+    else
+      Matrix.raise NotImplementedError, "+", self.class, rhs.class
+    end
   end
 
   def read(row, col)
-    @dict[:"#{row},#{col}"]
+    @dict[[row,col]]
   end
 
   def insert(row, col, value)
@@ -54,46 +114,19 @@ class DOKMatrix < SparseMatrix
     raise(TypeError) unless value.is_a?(Numeric) || value.nil?
     return delete(row, col) unless !value.nil? && value.nonzero?
 
-    @dict[:"#{row},#{col}"] = value
+    @dict[[row, col]] = value
   end
 
   def delete(row, col)
     raise(ArgumentError) unless row >= 0 && col >= 0
 
-    @dict.delete(:"#{row},#{col}")
-  end
-
-  def **(exponent)
-    raise(TypeError) unless exponent.is_a?(Numeric)
-
-    @dict.transform_values { |base| base**exponent }
-  end
-
-  def *(rhs)
-    if rhs.is_a? (Numeric)
-      new(
-        @dict.transform_values { |base| base * rhs },
-        @row_count,
-        @column_count
-      )
-    elsif rhs.is_a? (Matrix)
-      super rhs
-    end
+    @dict.delete([row, col])
   end
 
   def to_a
-    i = 0
+    # i = 0
     array = Array.new(@row_count, Array.new(@column_count, 0))
-    while i < @row_count
-      row = Array.new(@column_count, 0)
-      row.each_with_index do |_, j|
-        row[j] = self[i, j]
-      end
-      array[i] = row
-      puts(array)
-      i += 1
-    end
-    array
+    array.map!.with_index { |row, i| row.map.with_index { |_, j| self[i, j] } }
   end
 
   def to_matrix
@@ -103,10 +136,7 @@ class DOKMatrix < SparseMatrix
   def transpose
     new_dict = {}
     @dict.each do |key, val|
-      coords = key.to_s.split(',')
-      row = coords[1].to_i
-      col = coords[0].to_i
-      new_dict[:"#{row},#{col}"] = val
+      new_dict[[key[0], key[1]]] = val
     end
     new_matrix new_dict, @column_count, @row_count
   end
