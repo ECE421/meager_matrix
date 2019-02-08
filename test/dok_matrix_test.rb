@@ -2,13 +2,14 @@ require 'test/unit'
 require_relative '../lib/dok_matrix'
 require_relative '../lib/sparse_matrix_factory'
 require_relative 'sparse_matrix_generator'
+require_relative '../lib/../lib/dok_matrix_factory'
 
 class DOKMatrixTest < Test::Unit::TestCase
   # Called before every test method runs.
   # Can be used to set up fixture information.
   def setup
     @matrix = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
-    @sparse_matrix = SparseMatrixFactory.build([[]], 'dok')
+    @sparse_matrix = SparseMatrixFactory.build(@matrix, DoKMatrixFactory.new)
   end
 
   # Called after every test method runs. Can be used to tear
@@ -88,7 +89,7 @@ class DOKMatrixTest < Test::Unit::TestCase
   end
 
   def test_to_matrix
-    assert_equal(@matrix, @sparse_matrix.to_matrix, 'to_array failed for csr')
+    assert_equal(@matrix, @sparse_matrix.to_matrix, 'to_matrix failed')
   end
 
   def test_add_scalar

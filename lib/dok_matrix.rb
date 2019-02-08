@@ -19,10 +19,7 @@ class DOKMatrix < SparseMatrix
     @row_count
   end
 
-  def self.rows(rows, copy = true)
-    # array conversion
-    rows = rows.to_a
-
+  def self.rows(rows, column_count = rows[0].length)
     # compute into a dictionary
     row_count = rows.length
     column_count = (rows[0] || []).size
