@@ -150,33 +150,33 @@ for a DiagonalMatrix"
     row_vector(column).transpose
   end
 
-  def *(m)
-    case(m)
+  def *(other)
+    case other
     when Numeric
-      diagonal = @diagonal.collect {|e| e * m }
-      return new_matrix diagonal, row_count, column_count
+      diagonal = @diagonal.collect { |e| e * other }
+      new_matrix diagonal, row_count, column_count
     when Vector
-      m = self.class.column_vector(m)
-      r = self * m
-      return r.column(0)
+      other = self.class.column_vector(other)
+      r = self * other
+      r.column(0)
     when DiagonalMatrix
-      Matrix.Raise ErrDimensionMismatch if column_count != m.row_count
+      Matrix.Raise ErrDimensionMismatch if column_count != other.row_count
 
-      diagonal = @diagonal.size.times.collect { |i| @diagonal[i] * m.diagonal[i] }
-      return new_matrix diagonal, row_count, m.column_count
+      diagonal = Array.new(@diagonal.size) { |i| @diagonal[i] * other.diagonal[i] }
+      new_matrix diagonal, row_count, other.column_count
     when Matrix
-      Matrix.Raise ErrDimensionMismatch if column_count != m.row_count
+      Matrix.Raise ErrDimensionMismatch if column_count != other.row_count
 
-      rows = Array.new(row_count) {|i|
-        Array.new(m.column_count) {|j|
-          (0 ... column_count).inject(0) do |vij, k|
-            vij + self[i, k] * m[k, j]
+      rows = Array.new(row_count) do |i|
+        Array.new(other.column_count) do |j|
+          (0...column_count).inject(0) do |vij, k|
+            vij + self[i, k] * other[k, j]
           end
-        }
-      }
-      return Matrix.rows rows
+        end
+      end
+      Matrix.rows rows
     else
-      return apply_through_coercion(m, __method__)
+      apply_through_coercion(other, __method__)
     end
   end
 end

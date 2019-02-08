@@ -83,7 +83,7 @@ class DiagonalMatrixTest < Test::Unit::TestCase
 
   def test_multiply_matrix
     d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
-    d2 = d1*Matrix.rows([[2, 0], [2, 2]])
+    d2 = d1 * Matrix.rows([[2, 0], [2, 2]])
     assert_equal([[2, 0], [4, 4]], d2.to_a)
     assert_false(d2.is_a?(DiagonalMatrix))
     assert_true(d2.is_a?(Matrix))
@@ -91,7 +91,7 @@ class DiagonalMatrixTest < Test::Unit::TestCase
 
   def test_multiply_number
     d = DiagonalMatrix.rows([[1, 0], [0, 2]])
-    d = d*2
+    d *= 2
     assert_equal([[2, 0], [0, 4]], d.to_a)
     assert_true(d.is_a?(DiagonalMatrix))
   end
@@ -99,7 +99,7 @@ class DiagonalMatrixTest < Test::Unit::TestCase
   def test_multiply_diagonal
     d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
     d2 = DiagonalMatrix.rows([[1, 0], [0, 2]])
-    d3 = d1*d2
+    d3 = d1 * d2
     assert_equal([[1, 0], [0, 4]], d3.to_a)
     assert_true(d1.is_a?(DiagonalMatrix))
   end
