@@ -21,10 +21,7 @@ class DOKMatrix < SparseMatrix
 
   def self.rows(rows, copy = true)
     # array conversion
-    rows = convert_to_array(rows, copy)
-    rows.map! do |row|
-      convert_to_array(row, copy)
-    end
+    rows = rows.to_a
 
     # compute into a dictionary
     row_count = rows.length
@@ -40,7 +37,6 @@ class DOKMatrix < SparseMatrix
         dict[:"#{i},#{j}"] = value
       end
     end
-
     new dict, row_count, column_count
   end
 
@@ -70,10 +66,22 @@ class DOKMatrix < SparseMatrix
     @dict.delete(:"#{row},#{col}")
   end
 
-  def power(exponent)
+  def **(exponent)
     raise(TypeError) unless exponent.is_a?(Numeric)
 
-    @dict.transform_values! { |base| base**exponent }
+    @dict.transform_values { |base| base**exponent }
+  end
+
+  def *(rhs)
+    if rhs.is_a? (Numeric)
+      new(
+        @dict.transform_values { |base| base * rhs },
+        @row_count,
+        @column_count
+      )
+    elsif rhs.is_a? (Matrix)
+      super rhs
+    end
   end
 
   def to_a

@@ -8,7 +8,7 @@ class DOKMatrixTest < Test::Unit::TestCase
   # Can be used to set up fixture information.
   def setup
     @matrix = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
-    @sparse_matrix = SparseMatrixFactory.new([[]], 'dok')
+    @sparse_matrix = SparseMatrixFactory.build([[]], 'dok')
   end
 
   # Called after every test method runs. Can be used to tear
@@ -80,7 +80,7 @@ class DOKMatrixTest < Test::Unit::TestCase
   end
 
   def test_delete
-    matrix = DOKMatrix.new(
+    matrix = DOKMatrix.rows(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
     matrix.delete(1, 0)
