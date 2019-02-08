@@ -162,8 +162,8 @@ for a DiagonalMatrix"
     when DiagonalMatrix
       Matrix.Raise ErrDimensionMismatch if column_count != m.row_count
 
-      diagonal = @diagonal.collect {|e1| m.diagonal.each {|e2| e1 * e2 }}
-      return new_matrix diagonal, row_count, column_count
+      diagonal = @diagonal.size.times.collect { |i| @diagonal[i] * m.diagonal[i] }
+      return new_matrix diagonal, row_count, m.column_count
     when Matrix
       Matrix.Raise ErrDimensionMismatch if column_count != m.row_count
 
