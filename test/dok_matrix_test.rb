@@ -45,12 +45,12 @@ class DOKMatrixTest < Test::Unit::TestCase
 
     # Test inserting value to an empty index
     assert_equal(nil, matrix.read(0, 0))
-    matrix.insert(0, 0, 10)
+    matrix[0, 0] = 10
     assert_equal(10, matrix.read(0, 0))
 
     # Test overwriting value
     assert_equal(5, matrix.read(1, 0))
-    matrix.insert(1, 0, 6)
+    matrix[1, 0] = 6
     assert_equal(6, matrix.read(1, 0))
   end
 
@@ -61,23 +61,23 @@ class DOKMatrixTest < Test::Unit::TestCase
 
     # Test overwriting with 0
     assert_equal(5, matrix.read(1, 0))
-    matrix.insert(1, 0, 0)
+    matrix[1, 0] =  0
     assert_equal(nil, matrix.read(1, 0))
 
     # Test overwriting with nil
     assert_equal(8, matrix.read(1, 1))
-    matrix.insert(1, 1, nil)
+    matrix[1, 1] = nil
     assert_equal(nil, matrix.read(1, 1))
   end
 
   def test_insert_invalid_value
     matrix = DOKMatrix.rows([[]])
-    assert_raises(TypeError) { matrix.insert(0, 0, 'a') }
+    assert_raises(TypeError) { matrix[0, 0] = 'a' }
   end
 
   def test_insert_invalid_index
     matrix = DOKMatrix.rows([[]])
-    assert_raises(ArgumentError) { matrix.insert(-1, -1, 10) }
+    assert_raises(ArgumentError) { matrix[-1, -1] = 10 }
   end
 
   def test_delete
