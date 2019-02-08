@@ -68,24 +68,23 @@ class SparseMatrix < Matrix
     to_matrix.laplace_expansion(num)
   end
 
-  def **(rhs)
-    to_matrix * rhs
+  def **(other)
+    to_matrix**other
   end
 
-  def *(rhs)
-    to_matrix * rhs
+  def *(other)
+    to_matrix * other
   end
 
-  def /(rhs)
-    to_matrix * rhs
+  def /(other)
+    to_matrix / other
   end
 
-  def +(rhs)
-    to_matrix + rhs
+  def +(other)
+    to_matrix + other
   end
 
-  def -(rhs)
-    to_matrix - rhs
+  def -(other)
+    to_matrix - other
   end
-
 end

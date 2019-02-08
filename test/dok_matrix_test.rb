@@ -22,7 +22,7 @@ class DOKMatrixTest < Test::Unit::TestCase
     matrix = DOKMatrix.rows(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
-    assert_equal({ [1,0]=> 5, [1,1]=> 8, [2,2]=> 3, [3,1]=> 6 }, matrix.dict)
+    assert_equal({ [1, 0] => 5, [1, 1] => 8, [2, 2] => 3, [3, 1] => 6 }, matrix.dict)
   end
 
   def test_initialize_no_args
@@ -85,7 +85,7 @@ class DOKMatrixTest < Test::Unit::TestCase
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
     matrix.delete(1, 0)
-    assert_equal({ [1,1]=> 8, [2,2]=> 3, [3,1]=> 6 }, matrix.dict)
+    assert_equal({ [1, 1] => 8, [2, 2] => 3, [3, 1] => 6 }, matrix.dict)
   end
 
   def test_to_matrix

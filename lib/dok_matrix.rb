@@ -21,7 +21,6 @@ class DOKMatrix < SparseMatrix
   def self.rows(rows, column_count = rows[0].length)
     # compute into a dictionary
     row_count = rows.length
-    column_count = (rows[0] || []).size
     dict = {}
     rows.each_with_index do |row, i|
       raise ArgumentError, "row size differs (#{row.size} should be #{column_count})" unless row.size == column_count
@@ -30,7 +29,7 @@ class DOKMatrix < SparseMatrix
         raise(TypeError) unless value.is_a?(Numeric)
         next unless value.nonzero?
 
-        dict[[i,j]] = value
+        dict[[i, j]] = value
       end
     end
     new dict, row_count, column_count
@@ -41,78 +40,75 @@ class DOKMatrix < SparseMatrix
   end
 
   def [](row, col)
-    @dict.key?([row, col]) ? @dict[[row,col]] : 0
+    @dict.key?([row, col]) ? @dict[[row, col]] : 0
   end
 
   def []=(row, col, value)
     raise(ArgumentError) unless row >= 0 && col >= 0
     raise(TypeError) unless value.is_a?(Numeric) || value.nil?
-    return delete(row, col) unless !value.nil? && value.nonzero?
 
-    insert(row, col, value)
+    value.nil? || value.zero? ? delete(row, col) : insert(row, col, value)
   end
 
+  def **(other)
+    raise(TypeError) unless other.is_a?(Numeric)
 
-  def **(exponent)
-    raise(TypeError) unless exponent.is_a?(Numeric)
-    super ** exponent
+    super**other # rubocop:disable Layout/SpaceAroundKeyword
   end
 
-  def *(rhs)
-    case rhs
+  def *(other)
+    case other
     when Numeric
-      dict = @dict.transform_values { |v| v * rhs }
+      dict = @dict.transform_values { |v| v * other }
       new_matrix dict, @row_count, @column_count
     when Matrix
-      super rhs
+      super other
     else
-      Matrix.raise NotImplementedError, "*", self.class, rhs.class
+      Matrix.raise NotImplementedError, '*', self.class, other.class
     end
   end
 
-  def /(rhs)
-    case rhs
+  def /(other)
+    case other
     when Numeric
-      dict = @dict.transform_values { |v| v / rhs }
+      dict = @dict.transform_values { |v| v / other }
       new_matrix dict, @row_count, @column_count
     when Matrix
-      super rhs
+      super other
     else
-      Matrix.raise NotImplementedError, "/", self.class, rhs.class
+      Matrix.raise NotImplementedError, '/', self.class, other.class
     end
   end
 
-
-  def +(rhs)
-    case rhs
+  def +(other)
+    case other
     when Numeric
-      Matrix.Raise ErrOperationNotDefined, "+", self.class, rhs.class
+      Matrix.Raise ErrOperationNotDefined, '+', self.class, other.class
     when Matrix
-      super rhs
+      super other
     else
-      Matrix.raise NotImplementedError, "+", self.class, rhs.class
+      Matrix.raise NotImplementedError, '+', self.class, other.class
     end
   end
 
-  def -(rhs)
-    case rhs
+  def -(other)
+    case other
     when Numeric
-      Matrix.Raise ErrOperationNotDefined, "-", self.class, rhs.class
+      Matrix.Raise ErrOperationNotDefined, '-', self.class, other.class
     when Matrix
-      super rhs
+      super other
     else
-      Matrix.raise NotImplementedError, "+", self.class, rhs.class
+      Matrix.raise NotImplementedError, '+', self.class, other.class
     end
   end
 
   def read(row, col)
-    @dict[[row,col]]
+    @dict[[row, col]]
   end
 
   def insert(row, col, value)
     raise(ArgumentError) unless row >= 0 && col >= 0
     raise(TypeError) unless value.is_a?(Numeric) || value.nil?
-    return delete(row, col) unless !value.nil? && value.nonzero?
 
     @dict[[row, col]] = value
   end
