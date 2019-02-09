@@ -87,4 +87,8 @@ class SparseMatrix < Matrix
   def -(other)
     to_matrix - other
   end
+
+  def each(which = :all)
+    to_matrix.each(which)
+  end
 end
