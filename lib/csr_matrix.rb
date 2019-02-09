@@ -13,7 +13,7 @@ class CSRMatrix < SparseMatrix
     @column_count = column_count
   end
 
-  def self.rows(rows, column_count = rows[0].length)
+  def self.rows(rows, row_count = rows.length, column_count = rows[0].length)
     arr = rows.is_a?(Matrix) ? rows.to_a : rows
 
     a_array = []
@@ -35,29 +35,32 @@ class CSRMatrix < SparseMatrix
         ia_array[ia_array.length - 1] + nonzero_count
       )
     end
-    new a_array, ia_array, ja_array, rows.length, column_count
+    new a_array, ia_array, ja_array, row_count, column_count
   end
 
   def read_all
     @a_array
   end
 
-  def to_a
-    array = Array.new(@row_count) { Array.new(@column_count, 0) }
-    a_index = 0
-    last_num = 0
-    @ia_array.each_with_index do |num, i|
-      num_in_row = num - last_num
-      (0..num_in_row - 1).each do |_|
-        array[i - 1][@ja_array[a_index]] = @a_array[a_index]
-        a_index += 1
+  def to_matrix
+    matrix = Array.new(row_count) { Array.new(column_count, 0) }
+    i = 1
+    element = 0
+    prev = ia_array[0]
+    while i < ia_array.length
+      count = ia_array[i] - prev
+      count.times do
+        j = ja_array[element]
+        matrix[i-1][j] = a_array[element]
+        element += 1
       end
-      last_num = num
+      prev = ia_array[i]
+      i += 1
     end
-    array
+    Matrix.rows(matrix)
   end
 
-  def to_matrix
-    Matrix.rows(to_a)
+  def to_a
+    to_matrix.to_a
   end
 end
