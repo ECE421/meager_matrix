@@ -52,13 +52,6 @@ class DOKMatrix < SparseMatrix
   alias set_element []=
   alias set_component []=
 
-  private def set_value(row, col, value)
-    raise(ArgumentError) unless row >= 0 && col >= 0
-    raise(TypeError) unless value.is_a?(Numeric) || value.nil?
-
-    @dict[[row, col]] = value
-  end
-
   def **(other)
     raise(TypeError) unless other.is_a?(Numeric)
 
@@ -136,5 +129,12 @@ class DOKMatrix < SparseMatrix
       new_dict[[key[1], key[0]]] = val
     end
     new_matrix new_dict, @column_count, @row_count
+  end
+
+  private def set_value(row, col, value)
+    raise(ArgumentError) unless row >= 0 && col >= 0
+    raise(TypeError) unless value.is_a?(Numeric) || value.nil?
+
+    @dict[[row, col]] = value
   end
 end
