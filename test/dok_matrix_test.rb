@@ -61,7 +61,7 @@ class DOKMatrixTest < Test::Unit::TestCase
 
     # Test overwriting with 0
     assert_equal(5, matrix.read(1, 0))
-    matrix[1, 0] =  0
+    matrix[1, 0] = 0
     assert_equal(nil, matrix.read(1, 0))
 
     # Test overwriting with nil

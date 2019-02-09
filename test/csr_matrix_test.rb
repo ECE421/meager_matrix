@@ -36,6 +36,10 @@ class CsrMatrixTest < Test::Unit::TestCase
     assert_raises(TypeError) { matrix.power('2') }
   end
 
+  def test_to_a
+    assert_equal(@matrix.to_a, @sparse_matrix.to_a, 'to_a failed for csr')
+  end
+
   def test_to_matrix
     assert_equal(@matrix, @sparse_matrix.to_matrix, 'to_array failed for csr')
   end

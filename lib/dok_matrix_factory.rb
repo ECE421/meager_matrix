@@ -1,8 +1,8 @@
 require_relative '../lib/dok_matrix'
 require_relative '../lib/sparse_matrix_factory'
 
-# Concrete Factory for CSRMatrix
-class DoKMatrixFactory < SparseMatrixFactory
+# Concrete Factory for DOKMatrix
+class DOKMatrixFactory < SparseMatrixFactory
   def build_from_matrix(source_matrix)
     DOKMatrix.rows(source_matrix.to_a, source_matrix.column_count)
   end
