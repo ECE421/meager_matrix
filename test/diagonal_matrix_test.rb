@@ -101,6 +101,22 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     d2 = DiagonalMatrix.rows([[1, 0], [0, 2]])
     d3 = d1 * d2
     assert_equal([[1, 0], [0, 4]], d3.to_a)
-    assert_true(d1.is_a?(DiagonalMatrix))
+    assert_true(d3.is_a?(DiagonalMatrix))
+  end
+
+  def test_addition_diagonal
+    d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d2 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d3 = d1 + d2
+    assert_equal([[2, 0], [0, 4]], d3.to_a)
+    assert_true(d3.is_a?(DiagonalMatrix))
+  end
+
+  def test_addition_matrix
+    d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d2 = Matrix.rows([[1, 0], [0, 2]])
+    d3 = d1 + d2
+    assert_equal([[2, 0], [0, 4]], d3.to_a)
+    assert_true(d3.is_a?(Matrix))
   end
 end
