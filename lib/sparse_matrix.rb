@@ -91,4 +91,8 @@ class SparseMatrix < Matrix
   def -(other)
     to_matrix - other
   end
+
+  def combine(*matrices, &block)
+    Matrix.combine(self.to_matrix, *matrices, &block)
+  end
 end
