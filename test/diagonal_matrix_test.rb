@@ -174,4 +174,12 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     assert_equal([[1, 0], [0, 4]], d2.to_a)
     assert_true(d2.is_a?(DiagonalMatrix))
   end
+
+  def test_combine
+    d1 = DiagonalMatrix.rows([[1]])
+    d2 = DiagonalMatrix.rows([[1]])
+    combined_matrix = d1.combine(d2) { |m1, m2| m1 + m2 }
+    assert_equal([[2]], combined_matrix.to_a)
+    assert_true(combined_matrix.is_a?(Matrix))
+  end
 end

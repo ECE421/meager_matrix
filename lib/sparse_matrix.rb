@@ -71,7 +71,7 @@ class SparseMatrix < Matrix
   def each(which = :all, &block)
     to_matrix.each(which, &block)
   end
-  
+
   def **(other)
     to_matrix**other
   end
@@ -93,6 +93,6 @@ class SparseMatrix < Matrix
   end
 
   def combine(*matrices, &block)
-    Matrix.combine(self.to_matrix, *matrices, &block)
+    Matrix.combine(to_matrix, *matrices.collect(&:to_matrix), &block)
   end
 end
