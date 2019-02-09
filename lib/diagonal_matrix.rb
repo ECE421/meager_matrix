@@ -243,4 +243,9 @@ for a DiagonalMatrix"
     diagonal = @diagonal.collect { |e| 1 / e }
     new_matrix diagonal, row_count, column_count
   end
+
+  def **(other)
+    diagonal = @diagonal.collect { |e| e**other }
+    new_matrix diagonal, row_count, column_count
+  end
 end
