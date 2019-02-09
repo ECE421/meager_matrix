@@ -61,7 +61,7 @@ class DOKMatrixTest < Test::Unit::TestCase
 
     # Test overwriting with 0
     assert_equal(5, matrix.read(1, 0))
-    matrix[1, 0] =  0
+    matrix[1, 0] = 0
     assert_equal(nil, matrix.read(1, 0))
 
     # Test overwriting with nil
@@ -146,11 +146,43 @@ class DOKMatrixTest < Test::Unit::TestCase
     assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
   end
 
+  def test_add_dok
+    test = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
+    sparse_test = SparseMatrixFactory.build(test, DoKMatrixFactory.new)
+    actual = @sparse_matrix + sparse_test
+    exp = @matrix + test
+    assert_equal(exp, actual.to_matrix, 'Matrix addition failed')
+  end
+
+  def test_subtract_dok
+    test = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
+    sparse_test = SparseMatrixFactory.build(test, DoKMatrixFactory.new)
+    actual = @sparse_matrix - sparse_test
+    exp = @matrix - test
+    assert_equal(exp, actual.to_matrix, 'Matrix subtraction failed')
+  end
+
+  def test_multiply_dok
+    test = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
+    sparse_test = SparseMatrixFactory.build(test, DoKMatrixFactory.new)
+    actual = @sparse_matrix * sparse_test
+    exp = @matrix * test
+    assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
+  end
+
   def test_power
-    scalar = rand(-10..10)
-    actual = @sparse_matrix**scalar
-    exp = @matrix**scalar
-    assert_equal(exp, actual.to_matrix, 'Matrix exponentiation failed')
+    scalar = rand(0..10)
+    begin
+      actual = @sparse_matrix**scalar
+      exp = @matrix**scalar
+      assert_equal(exp, actual.to_matrix, 'Matrix exponentiation failed')
+    rescue Matrix::ErrNotRegular
+      begin
+        @matrix**scalar
+      rescue Matrix::ErrNotRegular
+        assert_true(true, 'Sparse was not able to be inverted')
+      end
+    end
   end
 
   def test_transpose

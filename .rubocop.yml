@@ -21,3 +21,6 @@ Naming/UncommunicativeMethodParamName:
 
 Metrics/LineLength:
   Enabled: false
+
+Style/EmptyLiteral:
+  Enabled: false
