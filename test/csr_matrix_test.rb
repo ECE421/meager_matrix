@@ -29,13 +29,6 @@ class CsrMatrixTest < Test::Unit::TestCase
     assert_equal([0, 1, 2, 1], matrix.ja_array)
   end
 
-  def test_power_type_error
-    matrix = CSRMatrix.rows(
-      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
-    )
-    assert_raises(TypeError) { matrix.power('2') }
-  end
-
   def test_to_a
     assert_equal(@matrix.to_a, @sparse_matrix.to_a, 'to_a failed for csr')
   end
