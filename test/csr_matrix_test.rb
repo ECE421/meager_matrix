@@ -29,39 +29,12 @@ class CSRMatrixTest < Test::Unit::TestCase
     assert_equal([0, 1, 2, 1], csr_matrix.ja_array)
   end
 
-  def test_power_type_error
-    csr_matrix = CSRMatrix.rows(
-      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
-    )
-    assert_raises(TypeError) { csr_matrix.power('2') }
-  end
-
   def test_to_a
-    csr_matrix = CSRMatrix.rows(
-      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
-    )
-    assert_equal([[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]], csr_matrix.to_a, 'to_a failed for csr')
+    assert_equal(@matrix.to_a, @sparse_matrix.to_a, 'to_a failed for csr')
   end
 
   def test_to_matrix
-    csr_matrix = CSRMatrix.rows(
-      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
-    )
-    assert_equal(Matrix.rows([[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]), csr_matrix.to_matrix, 'to_array failed for csr')
-  end
-
-  def test_add_scalar
-    scalar = rand(-100..100)
-    actual = @sparse_matrix + scalar
-    exp = @matrix + scalar
-    assert_equal(exp, actual.to_matrix, 'Addition failed')
-  end
-
-  def test_subtract_scalar
-    scalar = rand(-100..100)
-    actual = @sparse_matrix - scalar
-    exp = @matrix - scalar
-    assert_equal(exp, actual.to_matrix, 'Subtraction failed')
+    assert_equal(@matrix, @sparse_matrix.to_matrix, 'to_array failed for csr')
   end
 
   def test_divide_scalar
@@ -85,7 +58,7 @@ class CSRMatrixTest < Test::Unit::TestCase
     ) { rand(-10..10) }
     actual = @sparse_matrix + matrix
     exp = @matrix + matrix
-    assert_equal(exp, actual.to_matrix, 'Matrix addition failed')
+    assert_equal(exp, actual, 'Matrix addition failed')
   end
 
   def test_subtract
@@ -95,7 +68,7 @@ class CSRMatrixTest < Test::Unit::TestCase
     ) { rand(-10..10) }
     actual = @sparse_matrix - matrix
     exp = @matrix - matrix
-    assert_equal(exp, actual.to_matrix, 'Matrix subtraction failed')
+    assert_equal(exp, actual, 'Matrix subtraction failed')
   end
 
   def test_divide
@@ -105,7 +78,7 @@ class CSRMatrixTest < Test::Unit::TestCase
     ) { rand(-10..10) }
     actual = @sparse_matrix / matrix
     exp = @matrix / matrix
-    assert_equal(exp, actual.to_matrix, 'Matrix division failed')
+    assert_equal(exp, actual, 'Matrix division failed')
   end
 
   def test_multiply
@@ -115,13 +88,13 @@ class CSRMatrixTest < Test::Unit::TestCase
     ) { rand(-10..10) }
     actual = @sparse_matrix * matrix
     exp = @matrix * matrix
-    assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
+    assert_equal(exp, actual, 'Matrix multiplication failed')
   end
 
   def test_power
-    scalar = rand(-10..10)
+    scalar = rand(0..10)
     actual = @sparse_matrix**scalar
     exp = @matrix**scalar
-    assert_equal(exp, actual.to_matrix, 'Matrix exponentiation failed')
+    assert_equal(exp, actual, 'Matrix exponentiation failed')
   end
 end
