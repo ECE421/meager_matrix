@@ -209,7 +209,7 @@ for a DiagonalMatrix"
   def -(other)
     case other
     when Numeric
-      Matrix.Raise ErrOperationNotDefined, "-", self.class, other.class
+      Matrix.Raise ErrOperationNotDefined, '-', self.class, other.class
     when Vector
       other = self.class.column_vector(other)
     when DiagonalMatrix
@@ -225,11 +225,11 @@ for a DiagonalMatrix"
 
     Matrix.Raise ErrDimensionMismatch unless row_count == other.row_count && column_count == other.column_count
 
-    rows = Array.new(row_count) {|i|
-      Array.new(column_count) {|j|
+    rows = Array.new(row_count) do |i|
+      Array.new(column_count) do |j|
         self[i, j] - other[i, j]
-      }
-    }
+      end
+    end
     Matrix.rows(rows)
   end
 end
