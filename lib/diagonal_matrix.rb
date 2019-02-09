@@ -241,7 +241,7 @@ for a DiagonalMatrix"
   end
 
   def **(other)
-    diagonal = @diagonal.collect { |e| e ** other }
+    diagonal = @diagonal.collect { |e| e**other }
     new_matrix diagonal, row_count, column_count
   end
 end

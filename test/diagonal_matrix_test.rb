@@ -163,14 +163,14 @@ class DiagonalMatrixTest < Test::Unit::TestCase
 
   def test_exponentiation_float
     d1 = DiagonalMatrix.rows([[1.0, 0.0], [0.0, 2.0]])
-    d2 = d1 ** 2.0
+    d2 = d1**2.0
     assert_equal([[1.0, 0.0], [0.0, 4.0]], d2.to_a)
     assert_true(d2.is_a?(DiagonalMatrix))
   end
 
   def test_exponentiation_integer
     d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
-    d2 = d1 ** 2
+    d2 = d1**2
     assert_equal([[1, 0], [0, 4]], d2.to_a)
     assert_true(d2.is_a?(DiagonalMatrix))
   end
