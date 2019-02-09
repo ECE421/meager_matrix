@@ -13,7 +13,7 @@ class CSRMatrix < SparseMatrix
     @column_count = column_count
   end
 
-  def self.rows(rows, row_count = rows.length, column_count = rows[0].length)
+  def self.rows(rows, column_count = rows[0].length)
     arr = rows.is_a?(Matrix) ? rows.to_a : rows
 
     a_array = []
@@ -35,7 +35,7 @@ class CSRMatrix < SparseMatrix
         ia_array[ia_array.length - 1] + nonzero_count
       )
     end
-    new a_array, ia_array, ja_array, row_count, column_count
+    new a_array, ia_array, ja_array, rows.length, column_count
   end
 
   def read_all
