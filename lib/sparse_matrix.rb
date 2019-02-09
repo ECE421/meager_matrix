@@ -71,4 +71,24 @@ class SparseMatrix < Matrix
   def each(which = :all, &block)
     to_matrix.each(which, &block)
   end
+  
+  def **(other)
+    to_matrix**other
+  end
+
+  def *(other)
+    to_matrix * other
+  end
+
+  def /(other)
+    to_matrix / other
+  end
+
+  def +(other)
+    to_matrix + other
+  end
+
+  def -(other)
+    to_matrix - other
+  end
 end
