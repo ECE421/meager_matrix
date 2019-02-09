@@ -205,4 +205,31 @@ for a DiagonalMatrix"
     end
     Matrix.rows(rows)
   end
+
+  def -(other)
+    case other
+    when Numeric
+      Matrix.Raise ErrOperationNotDefined, "-", self.class, other.class
+    when Vector
+      other = self.class.column_vector(other)
+    when DiagonalMatrix
+      Matrix.Raise ErrDimensionMismatch unless row_count == other.row_count && column_count == other.column_count
+
+      diagonal = Array.new(@diagonal.size) { |i| @diagonal[i] - other.diagonal[i] }
+      return new_matrix diagonal, row_count, other.column_count
+    when Matrix
+      nil
+    else
+      return apply_through_coercion(other, __method__)
+    end
+
+    Matrix.Raise ErrDimensionMismatch unless row_count == other.row_count && column_count == other.column_count
+
+    rows = Array.new(row_count) {|i|
+      Array.new(column_count) {|j|
+        self[i, j] - other[i, j]
+      }
+    }
+    Matrix.rows(rows)
+  end
 end

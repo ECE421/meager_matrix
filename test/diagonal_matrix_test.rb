@@ -119,4 +119,21 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     assert_equal([[2, 0], [0, 4]], d3.to_a)
     assert_true(d3.is_a?(Matrix))
   end
+
+  def test_subtract_diagonal
+    d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d2 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d3 = d1 - d2
+    assert_equal([[0, 0], [0, 0]], d3.to_a)
+    assert_true(d3.is_a?(DiagonalMatrix))
+  end
+
+  def test_subtraction_matrix
+    d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d2 = Matrix.rows([[1, 0], [0, 2]])
+    d3 = d1 - d2
+    assert_equal([[0, 0], [0, 0]], d3.to_a)
+    assert_true(d3.is_a?(Matrix))
+    assert_false(d3.is_a?(DiagonalMatrix))
+  end
 end
