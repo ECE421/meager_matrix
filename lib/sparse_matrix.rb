@@ -68,6 +68,10 @@ class SparseMatrix < Matrix
     to_matrix.laplace_expansion(num)
   end
 
+  def each(which = :all, &block)
+    to_matrix.each(which, &block)
+  end
+  
   def **(other)
     to_matrix**other
   end
