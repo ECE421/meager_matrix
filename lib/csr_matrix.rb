@@ -36,6 +36,12 @@ class CSRMatrix < SparseMatrix
     new a_array, ia_array, ja_array
   end
 
+  #
+  # Returns the CSRMatrix as a Matrix.
+  #
+  def to_matrix
+  end
+
   def read_all
     @a_array
   end
