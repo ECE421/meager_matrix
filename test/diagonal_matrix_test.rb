@@ -136,4 +136,28 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     assert_true(d3.is_a?(Matrix))
     assert_false(d3.is_a?(DiagonalMatrix))
   end
+
+  def test_divide_diagonal
+    d1 = DiagonalMatrix.rows([[1.0, 0.0], [0.0, 2.0]])
+    d2 = DiagonalMatrix.rows([[1.0, 0.0], [0.0, 2.0]])
+    d3 = d1 / d2
+    assert_equal([[1.0, 0.0], [0.0, 1.0]], d3.to_a)
+    assert_true(d3.is_a?(DiagonalMatrix))
+  end
+
+  def test_divide_matrix
+    d1 = DiagonalMatrix.rows([[1.0, 0.0], [0.0, 2.0]])
+    d2 = Matrix.rows([[1.0, 0.0], [0.0, 2.0]])
+    d3 = d1 / d2
+    assert_equal([[1.0, 0.0], [0.0, 1.0]], d3.to_a)
+    assert_true(d3.is_a?(Matrix))
+    assert_false(d3.is_a?(DiagonalMatrix))
+  end
+
+  def test_divide_numeric
+    d1 = DiagonalMatrix.rows([[1.0, 0.0], [0.0, 2.0]])
+    d3 = d1 / 2
+    assert_equal([[0.5, 0.0], [0.0, 1.0]], d3.to_a)
+    assert_true(d3.is_a?(DiagonalMatrix))
+  end
 end

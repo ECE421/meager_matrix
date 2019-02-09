@@ -232,4 +232,21 @@ for a DiagonalMatrix"
     end
     Matrix.rows(rows)
   end
+
+  def /(other)
+    case other
+    when Numeric
+      diagonal = @diagonal.collect { |e| e / other }
+      return new_matrix diagonal, row_count, column_count
+    when Matrix
+      return self * other.inverse
+    else
+      return apply_through_coercion(other, __method__)
+    end
+  end
+
+  def inverse
+    diagonal = @diagonal.collect { |e| 1 / e }
+    new_matrix diagonal, row_count, column_count
+  end
 end
