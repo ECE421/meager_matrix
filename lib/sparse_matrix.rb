@@ -72,6 +72,10 @@ class SparseMatrix < Matrix
     to_matrix.each(which, &block)
   end
 
+  def collect(&block)
+    to_matrix.collect(&block)
+  end
+
   def **(other)
     to_matrix**other
   end
