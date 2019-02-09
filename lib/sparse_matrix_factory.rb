@@ -8,7 +8,7 @@ class SparseMatrixFactory
     elsif source.is_a?(Array)
       type.build_from_array(source)
     else
-      throw(TypeError)
+      raise TypeError
     end
   end
 
