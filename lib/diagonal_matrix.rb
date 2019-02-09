@@ -51,16 +51,7 @@ class DiagonalMatrix < SparseMatrix
   # Returns the DiagonalMatrix as a Matrix.
   #
   def to_matrix
-    i = 0
-    matrix = Array.new(@row_count, Array.new(@column_count, 0))
-    while i < @diagonal.length
-      row = Array.new(@column_count, 0)
-      row[i] = diagonal.at(i)
-      matrix[i] = row
-      puts(matrix)
-      i += 1
-    end
-    Matrix.rows(matrix)
+    Matrix.rows(to_a)
   end
 
   #
@@ -101,7 +92,6 @@ for a DiagonalMatrix"
       row = Array.new(@column_count, 0)
       row[i] = diagonal.at(i)
       array[i] = row
-      puts(array)
       i += 1
     end
     array
@@ -237,11 +227,11 @@ for a DiagonalMatrix"
     case other
     when Numeric
       diagonal = @diagonal.collect { |e| e / other }
-      return new_matrix diagonal, row_count, column_count
+      new_matrix diagonal, row_count, column_count
     when Matrix
-      return self * other.inverse
+      self * other.inverse
     else
-      return apply_through_coercion(other, __method__)
+      apply_through_coercion(other, __method__)
     end
   end
 
