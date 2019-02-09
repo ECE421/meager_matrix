@@ -133,7 +133,7 @@ class DOKMatrix < SparseMatrix
   def transpose
     new_dict = {}
     @dict.each do |key, val|
-      new_dict[[key[0], key[1]]] = val
+      new_dict[[key[1], key[0]]] = val
     end
     new_matrix new_dict, @column_count, @row_count
   end

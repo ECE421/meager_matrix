@@ -152,4 +152,12 @@ class DOKMatrixTest < Test::Unit::TestCase
     exp = @matrix**scalar
     assert_equal(exp, actual.to_matrix, 'Matrix exponentiation failed')
   end
+
+  def test_transpose
+    assert_equal(@sparse_matrix, @sparse_matrix.transpose.transpose)
+    assert_equal(
+      @matrix.transpose,
+      @sparse_matrix.transpose.to_matrix
+    )
+  end
 end
