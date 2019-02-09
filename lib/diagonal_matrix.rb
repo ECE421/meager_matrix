@@ -33,6 +33,10 @@ class DiagonalMatrix < SparseMatrix
     new diagonal, num_row, num_col
   end
 
+  def read_all
+    @diagonal
+  end
+
   # TODO: make Matrix.build
 
   def self.diagonal(*values)

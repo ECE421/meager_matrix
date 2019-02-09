@@ -23,6 +23,10 @@ class DOKMatrix < SparseMatrix
     end
   end
 
+  def self.rows(rows, column_count = rows[0].length)
+    # TODO: Implement
+  end
+
   def read_all
     @dict.values
   end
