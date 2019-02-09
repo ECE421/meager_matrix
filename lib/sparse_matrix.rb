@@ -67,4 +67,24 @@ class SparseMatrix < Matrix
     num = row || column
     to_matrix.laplace_expansion(num)
   end
+
+  def **(other)
+    to_matrix**other
+  end
+
+  def *(other)
+    to_matrix * other
+  end
+
+  def /(other)
+    to_matrix / other
+  end
+
+  def +(other)
+    to_matrix + other
+  end
+
+  def -(other)
+    to_matrix - other
+  end
 end
