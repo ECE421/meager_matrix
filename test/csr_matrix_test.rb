@@ -24,32 +24,30 @@ class CSRMatrixTest < Test::Unit::TestCase
     csr_matrix = CSRMatrix.rows(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
-    assert_equal([5, 8, 3, 6], matrix.a_array)
-    assert_equal([0, 0, 2, 3, 4], matrix.ia_array)
-    assert_equal([0, 1, 2, 1], matrix.ja_array)
+    assert_equal([5, 8, 3, 6], csr_matrix.a_array)
+    assert_equal([0, 0, 2, 3, 4], csr_matrix.ia_array)
+    assert_equal([0, 1, 2, 1], csr_matrix.ja_array)
   end
 
   def test_power_type_error
     csr_matrix = CSRMatrix.rows(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
-    assert_raises(TypeError) { matrix.power('2') }
+    assert_raises(TypeError) { csr_matrix.power('2') }
   end
 
   def test_to_a
     csr_matrix = CSRMatrix.rows(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
-    assert_equal([[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]],
-      csr_matrix.to_a, 'to_a failed for csr')
+    assert_equal([[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]], csr_matrix.to_a, 'to_a failed for csr')
   end
 
   def test_to_matrix
     csr_matrix = CSRMatrix.rows(
       [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
     )
-    assert_equal(Matrix.rows([[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]),
-      csr_matrix.to_matrix, 'to_array failed for csr')
+    assert_equal(Matrix.rows([[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]), csr_matrix.to_matrix, 'to_array failed for csr')
   end
 
   def test_add_scalar

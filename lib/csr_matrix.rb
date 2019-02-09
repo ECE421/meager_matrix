@@ -51,7 +51,7 @@ class CSRMatrix < SparseMatrix
       count = ia_array[i] - prev
       count.times do
         j = ja_array[element]
-        matrix[i-1][j] = a_array[element]
+        matrix[i - 1][j] = a_array[element]
         element += 1
       end
       prev = ia_array[i]
