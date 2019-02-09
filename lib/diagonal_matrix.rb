@@ -149,4 +149,34 @@ for a DiagonalMatrix"
   def self.column_vector(column)
     row_vector(column).transpose
   end
+
+  def *(other)
+    case other
+    when Numeric
+      diagonal = @diagonal.collect { |e| e * other }
+      new_matrix diagonal, row_count, column_count
+    when Vector
+      other = self.class.column_vector(other)
+      r = self * other
+      r.column(0)
+    when DiagonalMatrix
+      Matrix.Raise ErrDimensionMismatch if column_count != other.row_count
+
+      diagonal = Array.new(@diagonal.size) { |i| @diagonal[i] * other.diagonal[i] }
+      new_matrix diagonal, row_count, other.column_count
+    when Matrix
+      Matrix.Raise ErrDimensionMismatch if column_count != other.row_count
+
+      rows = Array.new(row_count) do |i|
+        Array.new(other.column_count) do |j|
+          (0...column_count).inject(0) do |vij, k|
+            vij + self[i, k] * other[k, j]
+          end
+        end
+      end
+      Matrix.rows rows
+    else
+      apply_through_coercion(other, __method__)
+    end
+  end
 end
