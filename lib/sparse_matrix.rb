@@ -67,4 +67,8 @@ class SparseMatrix < Matrix
     num = row || column
     to_matrix.laplace_expansion(num)
   end
+
+  def each(which = :all, &block)
+    to_matrix.each(which, &block)
+  end
 end
