@@ -72,6 +72,18 @@ class SparseMatrix < Matrix
     to_matrix.each(which, &block)
   end
 
+  def each_with_index(which = :all, &block)
+    to_matrix.each_with_index(which, &block)
+  end
+
+  def cofactor(row, column)
+    to_matrix.cofactor(row, column)
+  end
+
+  def adjugate
+    to_matrix.adjugate
+  end
+
   def collect(&block)
     to_matrix.collect(&block)
   end
