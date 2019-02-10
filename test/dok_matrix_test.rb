@@ -148,6 +148,16 @@ class DOKMatrixTest < Test::Unit::TestCase
     assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
   end
 
+  def test_hadamard_product
+    matrix = Matrix.build(
+        @row_count,
+        @column_count
+    ) { rand(-10..10) }
+    actual = @sparse_matrix.hadamard_product(matrix)
+    exp = @matrix.hadamard_product(matrix)
+    assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
+  end
+
   def test_add_dok
     test = SparseMatrixGenerator.generate_sparse_matrix(@row_count, @column_count)
     sparse_test = SparseMatrixFactory.build(test, DOKMatrixFactory.new)
@@ -171,6 +181,15 @@ class DOKMatrixTest < Test::Unit::TestCase
     exp = @matrix * test
     assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
   end
+
+  def test_hadamard_product_dok
+    test = SparseMatrixGenerator.generate_sparse_matrix(@row_count, @column_count)
+    sparse_test = SparseMatrixFactory.build(test, DOKMatrixFactory.new)
+    actual = @sparse_matrix.hadamard_product(sparse_test)
+    exp = @matrix.hadamard_product(test)
+    assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
+  end
+
 
   def test_power
     scalar = rand(2..5)
