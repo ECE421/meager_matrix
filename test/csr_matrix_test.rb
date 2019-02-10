@@ -58,7 +58,7 @@ class CSRMatrixTest < Test::Unit::TestCase
     ) { rand(-10..10) }
     actual = @sparse_matrix + matrix
     exp = @matrix + matrix
-    assert_equal(exp, actual, 'Matrix addition failed')
+    assert_equal(exp, actual.to_matrix, 'Matrix addition failed')
   end
 
   def test_subtract
@@ -68,7 +68,7 @@ class CSRMatrixTest < Test::Unit::TestCase
     ) { rand(-10..10) }
     actual = @sparse_matrix - matrix
     exp = @matrix - matrix
-    assert_equal(exp, actual, 'Matrix subtraction failed')
+    assert_equal(exp, actual.to_matrix, 'Matrix subtraction failed')
   end
 
   def test_divide
@@ -78,7 +78,7 @@ class CSRMatrixTest < Test::Unit::TestCase
     ) { rand(-10..10) }
     actual = @sparse_matrix / matrix
     exp = @matrix / matrix
-    assert_equal(exp, actual, 'Matrix division failed')
+    assert_equal(exp, actual.to_matrix, 'Matrix division failed')
   end
 
   def test_multiply
@@ -88,13 +88,21 @@ class CSRMatrixTest < Test::Unit::TestCase
     ) { rand(-10..10) }
     actual = @sparse_matrix * matrix
     exp = @matrix * matrix
-    assert_equal(exp, actual, 'Matrix multiplication failed')
+    assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
   end
 
   def test_power
-    scalar = rand(0..10)
-    actual = @sparse_matrix**scalar
-    exp = @matrix**scalar
-    assert_equal(exp, actual, 'Matrix exponentiation failed')
+    scalar = rand(2..5)
+    begin
+      actual = @sparse_matrix**scalar
+      exp = @matrix**scalar
+      assert_equal(exp, actual.to_matrix, 'Matrix exponentiation failed')
+    rescue Matrix::ErrNotRegular
+      begin
+        @matrix**scalar
+      rescue Matrix::ErrNotRegular
+        assert_true(true, 'Sparse was not able to be inverted')
+      end
+    end
   end
 end
