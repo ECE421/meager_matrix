@@ -91,6 +91,30 @@ class CSRMatrixTest < Test::Unit::TestCase
     assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
   end
 
+  def test_add_csr
+    test = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
+    sparse_test = SparseMatrixFactory.build(test, CSRMatrixFactory.new)
+    actual = @sparse_matrix - sparse_test
+    exp = @matrix - test
+    assert_equal(exp, actual.to_matrix, 'Matrix subtraction failed')
+  end
+
+  def test_subtract_csr
+    test = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
+    sparse_test = SparseMatrixFactory.build(test, CSRMatrixFactory.new)
+    actual = @sparse_matrix - sparse_test
+    exp = @matrix - test
+    assert_equal(exp, actual.to_matrix, 'Matrix subtraction failed')
+  end
+
+  def test_multiply_csr
+    test = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
+    sparse_test = SparseMatrixFactory.build(test, CSRMatrixFactory.new)
+    actual = @sparse_matrix * sparse_test
+    exp = @matrix * test
+    assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
+  end
+
   def test_power
     scalar = rand(2..5)
     begin

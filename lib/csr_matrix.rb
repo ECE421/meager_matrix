@@ -71,7 +71,7 @@ class CSRMatrix < SparseMatrix
   def **(other)
     raise(TypeError) unless other.is_a?(Numeric)
 
-    super**other # rubocop:disable Layout/SpaceAroundKeyword
+    super other # rubocop:disable Layout/SpaceAroundKeyword
   end
 
   def *(other)
@@ -82,7 +82,7 @@ class CSRMatrix < SparseMatrix
       end
       new_matrix new_array, @ia_array, @ja_array, @row_count, @column_count
     when Matrix
-      super other
+      super other.to_matrix
     else
       Matrix.raise NotImplementedError, '*', self.class, other.class
     end
@@ -96,7 +96,7 @@ class CSRMatrix < SparseMatrix
       end
       new_matrix new_array, @ia_array, @ja_array, @row_count, @column_count
     when Matrix
-      super other
+      super other.to_matrix
     else
       Matrix.raise NotImplementedError, '/', self.class, other.class
     end
@@ -107,7 +107,7 @@ class CSRMatrix < SparseMatrix
     when Numeric
       Matrix.Raise ErrOperationNotDefined, '+', self.class, other.class
     when Matrix
-      super other
+      super other.to_matrix
     else
       Matrix.raise NotImplementedError, '+', self.class, other.class
     end
@@ -118,7 +118,7 @@ class CSRMatrix < SparseMatrix
     when Numeric
       Matrix.Raise ErrOperationNotDefined, '-', self.class, other.class
     when Matrix
-      super other
+      super other.to_matrix
     else
       Matrix.raise NotImplementedError, '+', self.class, other.class
     end
