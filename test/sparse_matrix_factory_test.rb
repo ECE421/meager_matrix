@@ -50,4 +50,15 @@ class SparseMatrixFactoryTest < Test::Unit::TestCase
     assert(built.is_a?(DiagonalMatrix))
     assert_equal([1, 1, 1], built.read_all)
   end
+
+  def test_build_from_unsupported
+    assert_raise(TypeError) { SparseMatrixFactory.build({}) }
+    assert_raise(TypeError) { SparseMatrixFactory.build(0) }
+    assert_raise(TypeError) { SparseMatrixFactory.build('Hello, world!') }
+  end
+
+  def test_build_without_factory
+    matrix_input = Matrix[[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+    assert_raise(TypeError) { SparseMatrixFactory.build(matrix_input, {}) }
+  end
 end
