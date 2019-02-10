@@ -5,7 +5,6 @@ require_relative 'sparse_matrix_generator'
 class DiagonalMatrixTest < Test::Unit::TestCase
   def setup
     @matrix = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
-    @sparse_matrix = SparseMatrixFactory.new(@matrix, 'diagonal')
   end
 
   def teardown
@@ -80,5 +79,107 @@ class DiagonalMatrixTest < Test::Unit::TestCase
     assert_equal(3, diagonal_matrix.row_count)
     assert_equal(3, diagonal_matrix.column_count)
     assert_equal([1, 1, 1], diagonal_matrix.diagonal)
+  end
+
+  def test_multiply_matrix
+    d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d2 = d1 * Matrix.rows([[2, 0], [2, 2]])
+    assert_equal([[2, 0], [4, 4]], d2.to_a)
+    assert_false(d2.is_a?(DiagonalMatrix))
+    assert_true(d2.is_a?(Matrix))
+  end
+
+  def test_multiply_number
+    d = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d *= 2
+    assert_equal([[2, 0], [0, 4]], d.to_a)
+    assert_true(d.is_a?(DiagonalMatrix))
+  end
+
+  def test_multiply_diagonal
+    d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d2 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d3 = d1 * d2
+    assert_equal([[1, 0], [0, 4]], d3.to_a)
+    assert_true(d3.is_a?(DiagonalMatrix))
+  end
+
+  def test_addition_diagonal
+    d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d2 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d3 = d1 + d2
+    assert_equal([[2, 0], [0, 4]], d3.to_a)
+    assert_true(d3.is_a?(DiagonalMatrix))
+  end
+
+  def test_addition_matrix
+    d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d2 = Matrix.rows([[1, 0], [0, 2]])
+    d3 = d1 + d2
+    assert_equal([[2, 0], [0, 4]], d3.to_a)
+    assert_true(d3.is_a?(Matrix))
+  end
+
+  def test_subtract_diagonal
+    d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d2 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d3 = d1 - d2
+    assert_equal([[0, 0], [0, 0]], d3.to_a)
+    assert_true(d3.is_a?(DiagonalMatrix))
+  end
+
+  def test_subtraction_matrix
+    d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d2 = Matrix.rows([[1, 0], [0, 2]])
+    d3 = d1 - d2
+    assert_equal([[0, 0], [0, 0]], d3.to_a)
+    assert_true(d3.is_a?(Matrix))
+    assert_false(d3.is_a?(DiagonalMatrix))
+  end
+
+  def test_divide_diagonal
+    d1 = DiagonalMatrix.rows([[1.0, 0.0], [0.0, 2.0]])
+    d2 = DiagonalMatrix.rows([[1.0, 0.0], [0.0, 2.0]])
+    d3 = d1 / d2
+    assert_equal([[1.0, 0.0], [0.0, 1.0]], d3.to_a)
+    assert_true(d3.is_a?(DiagonalMatrix))
+  end
+
+  def test_divide_matrix
+    d1 = DiagonalMatrix.rows([[1.0, 0.0], [0.0, 2.0]])
+    d2 = Matrix.rows([[1.0, 0.0], [0.0, 2.0]])
+    d3 = d1 / d2
+    assert_equal([[1.0, 0.0], [0.0, 1.0]], d3.to_a)
+    assert_true(d3.is_a?(Matrix))
+    assert_false(d3.is_a?(DiagonalMatrix))
+  end
+
+  def test_divide_numeric
+    d1 = DiagonalMatrix.rows([[1.0, 0.0], [0.0, 2.0]])
+    d3 = d1 / 2.0
+    assert_equal([[0.5, 0.0], [0.0, 1.0]], d3.to_a)
+    assert_true(d3.is_a?(DiagonalMatrix))
+  end
+
+  def test_exponentiation_float
+    d1 = DiagonalMatrix.rows([[1.0, 0.0], [0.0, 2.0]])
+    d2 = d1**2.0
+    assert_equal([[1.0, 0.0], [0.0, 4.0]], d2.to_a)
+    assert_true(d2.is_a?(DiagonalMatrix))
+  end
+
+  def test_exponentiation_integer
+    d1 = DiagonalMatrix.rows([[1, 0], [0, 2]])
+    d2 = d1**2
+    assert_equal([[1, 0], [0, 4]], d2.to_a)
+    assert_true(d2.is_a?(DiagonalMatrix))
+  end
+
+  def test_combine
+    d1 = DiagonalMatrix.rows([[1]])
+    d2 = DiagonalMatrix.rows([[1]])
+    combined_matrix = d1.combine(d2) { |m1, m2| m1 + m2 }
+    assert_equal([[2]], combined_matrix.to_a)
+    assert_true(combined_matrix.is_a?(Matrix))
   end
 end

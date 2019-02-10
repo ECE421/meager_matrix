@@ -168,12 +168,16 @@ class DOKMatrix < SparseMatrix
   end
 
   def to_a
-    array = Array.new(@row_count, Array.new(@column_count, 0))
+    array = Array.new(@row_count) { Array.new(@column_count, 0) }
     array.map!.with_index { |row, i| row.map.with_index { |_, j| self[i, j] } }
   end
 
   def to_matrix
     Matrix.rows(to_a)
+  end
+
+  def zero?
+    @dict.empty?
   end
 
   def transpose

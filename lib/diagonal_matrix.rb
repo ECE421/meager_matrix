@@ -33,6 +33,10 @@ class DiagonalMatrix < SparseMatrix
     new diagonal, num_row, num_col
   end
 
+  def read_all
+    @diagonal
+  end
+
   # TODO: make Matrix.build
 
   def self.diagonal(*values)
@@ -51,16 +55,7 @@ class DiagonalMatrix < SparseMatrix
   # Returns the DiagonalMatrix as a Matrix.
   #
   def to_matrix
-    i = 0
-    matrix = Array.new(@row_count, Array.new(@column_count, 0))
-    while i < @diagonal.length
-      row = Array.new(@column_count, 0)
-      row[i] = diagonal.at(i)
-      matrix[i] = row
-      puts(matrix)
-      i += 1
-    end
-    Matrix.rows(matrix)
+    Matrix.rows(to_a)
   end
 
   #
@@ -96,12 +91,11 @@ for a DiagonalMatrix"
 
   def to_a
     i = 0
-    array = Array.new(@row_count, Array.new(@column_count, 0))
+    array = Array.new(@row_count) { Array.new(@column_count, 0) }
     while i < @diagonal.length
       row = Array.new(@column_count, 0)
       row[i] = diagonal.at(i)
       array[i] = row
-      puts(array)
       i += 1
     end
     array
@@ -148,5 +142,110 @@ for a DiagonalMatrix"
 
   def self.column_vector(column)
     row_vector(column).transpose
+  end
+
+  def *(other)
+    case other
+    when Numeric
+      diagonal = @diagonal.collect { |e| e * other }
+      new_matrix diagonal, row_count, column_count
+    when Vector
+      other = self.class.column_vector(other)
+      r = self * other
+      r.column(0)
+    when DiagonalMatrix
+      Matrix.Raise ErrDimensionMismatch if column_count != other.row_count
+
+      diagonal = Array.new(@diagonal.size) { |i| @diagonal[i] * other.diagonal[i] }
+      new_matrix diagonal, row_count, other.column_count
+    when Matrix
+      Matrix.Raise ErrDimensionMismatch if column_count != other.row_count
+
+      rows = Array.new(row_count) do |i|
+        Array.new(other.column_count) do |j|
+          (0...column_count).inject(0) do |vij, k|
+            vij + self[i, k] * other[k, j]
+          end
+        end
+      end
+      Matrix.rows rows
+    else
+      apply_through_coercion(other, __method__)
+    end
+  end
+
+  def +(other)
+    case other
+    when Numeric
+      Matrix.Raise ErrOperationNotDefined, '+', self.class, other.class
+    when Vector
+      other = self.class.column_vector(other)
+    when DiagonalMatrix
+      Matrix.Raise ErrDimensionMismatch unless row_count == other.row_count && column_count == other.column_count
+
+      diagonal = Array.new(@diagonal.size) { |i| @diagonal[i] + other.diagonal[i] }
+      return new_matrix diagonal, row_count, other.column_count
+    when Matrix
+      nil
+    else
+      return apply_through_coercion(other, __method__)
+    end
+    Matrix.Raise ErrDimensionMismatch unless row_count == other.row_count && column_count == other.column_count
+
+    rows = Array.new(row_count) do |i|
+      Array.new(column_count) do |j|
+        self[i, j] + other[i, j]
+      end
+    end
+    Matrix.rows(rows)
+  end
+
+  def -(other)
+    case other
+    when Numeric
+      Matrix.Raise ErrOperationNotDefined, '-', self.class, other.class
+    when Vector
+      other = self.class.column_vector(other)
+    when DiagonalMatrix
+      Matrix.Raise ErrDimensionMismatch unless row_count == other.row_count && column_count == other.column_count
+
+      diagonal = Array.new(@diagonal.size) { |i| @diagonal[i] - other.diagonal[i] }
+      return new_matrix diagonal, row_count, other.column_count
+    when Matrix
+      nil
+    else
+      return apply_through_coercion(other, __method__)
+    end
+
+    Matrix.Raise ErrDimensionMismatch unless row_count == other.row_count && column_count == other.column_count
+
+    rows = Array.new(row_count) do |i|
+      Array.new(column_count) do |j|
+        self[i, j] - other[i, j]
+      end
+    end
+    Matrix.rows(rows)
+  end
+
+  def /(other)
+    case other
+    when Numeric
+      diagonal = @diagonal.collect { |e| e / other }
+      new_matrix diagonal, row_count, column_count
+    when Matrix
+      self * other.inverse
+    else
+      apply_through_coercion(other, __method__)
+    end
+  end
+
+  def inverse
+    diagonal = @diagonal.collect { |e| 1 / e }
+    new_matrix diagonal, row_count, column_count
+  end
+
+  def **(other)
+    diagonal = @diagonal.collect { |e| e**other }
+    new_matrix diagonal, row_count, column_count
   end
 end
