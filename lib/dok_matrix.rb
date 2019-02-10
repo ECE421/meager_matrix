@@ -65,6 +65,7 @@ class DOKMatrix < SparseMatrix
       new_matrix dict, @row_count, @column_count
     when DOKMatrix
       raise ErrDimensionMismatch if @column_count != other.row_count
+
       ret = new_matrix Hash.new, @row_count, other.column_count
       (0..@row_count).each do |i|
         (0..other.column_count).each do |j|

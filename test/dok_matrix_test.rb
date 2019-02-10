@@ -179,7 +179,7 @@ class DOKMatrixTest < Test::Unit::TestCase
       exp = @matrix**scalar
       assert_equal(exp, actual.to_matrix, 'Matrix exponentiation failed')
     rescue Matrix::ErrNotRegular
-      assert_true(@matrix.regular?, "Matrix was not irregular")
+      assert_true(@matrix.regular?, 'Matrix was not irregular')
     end
   end
 
