@@ -55,7 +55,7 @@ class DOKMatrix < SparseMatrix
   def **(other)
     raise(TypeError) unless other.is_a?(Numeric)
 
-    super**other # rubocop:disable Layout/SpaceAroundKeyword
+    super other
   end
 
   def *(other)

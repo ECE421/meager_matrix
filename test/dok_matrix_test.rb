@@ -171,17 +171,13 @@ class DOKMatrixTest < Test::Unit::TestCase
   end
 
   def test_power
-    scalar = rand(0..10)
+    scalar = rand(2..5)
     begin
       actual = @sparse_matrix**scalar
       exp = @matrix**scalar
       assert_equal(exp, actual.to_matrix, 'Matrix exponentiation failed')
     rescue Matrix::ErrNotRegular
-      begin
-        @matrix**scalar
-      rescue Matrix::ErrNotRegular
-        assert_true(true, 'Sparse was not able to be inverted')
-      end
+      assert_true(@matrix.regular?, "Matrix was not irregular")
     end
   end
 
