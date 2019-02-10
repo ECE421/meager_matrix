@@ -32,7 +32,7 @@ class CSRMatrixTest < Test::Unit::TestCase
   def test_initialize_no_args
     csr_matrix = CSRMatrix.rows([[]])
     assert_equal([], csr_matrix.a_array)
-    assert_equal([], csr_matrix.ia_array)
+    assert_equal([0, 0], csr_matrix.ia_array)
     assert_equal([], csr_matrix.ja_array)
   end
 
