@@ -21,7 +21,7 @@ class DOKMatrix < SparseMatrix
   def self.rows(rows, column_count = rows[0].length)
     # compute into a dictionary
     row_count = rows.length
-    dict = {}
+    dict = Hash.new
     rows.each_with_index do |row, i|
       raise ArgumentError, "row size differs (#{row.size} should be #{column_count})" unless row.size == column_count
 
@@ -55,7 +55,7 @@ class DOKMatrix < SparseMatrix
   def **(other)
     raise(TypeError) unless other.is_a?(Numeric)
 
-    super**other # rubocop:disable Layout/SpaceAroundKeyword
+    super other
   end
 
   def *(other)
@@ -63,10 +63,24 @@ class DOKMatrix < SparseMatrix
     when Numeric
       dict = @dict.transform_values { |v| v * other }
       new_matrix dict, @row_count, @column_count
+    when DOKMatrix
+      raise ErrDimensionMismatch if @column_count != other.row_count
+
+      ret = new_matrix Hash.new, @row_count, other.column_count
+      (0..@row_count).each do |i|
+        (0..other.column_count).each do |j|
+          v = 0
+          (0..@column_count).each do |k|
+            v += self[i, k] * other[k, j]
+          end
+          ret[i, j] = v
+        end
+      end
+      ret
     when Matrix
-      super other
+      super other.to_matrix
     else
-      Matrix.raise NotImplementedError, '*', self.class, other.class
+      raise NotImplementedError, '*', self.class, other.class
     end
   end
 
@@ -76,33 +90,73 @@ class DOKMatrix < SparseMatrix
       dict = @dict.transform_values { |v| v / other }
       new_matrix dict, @row_count, @column_count
     when Matrix
-      super other
+      super other.to_matrix
     else
-      Matrix.raise NotImplementedError, '/', self.class, other.class
+      raise NotImplementedError, '/', self.class, other.class
     end
   end
 
   def +(other)
     case other
     when Numeric
-      Matrix.Raise ErrOperationNotDefined, '+', self.class, other.class
+      raise ErrOperationNotDefined, '+', self.class, other.class
+    when DOKMatrix
+      raise IndexError if other.row_count != @row_count && other.column_count != @column_count
+
+      ret = new_matrix Hash.new, @row_count, @column_count
+      (0..@column_count).each do |i|
+        (0..@row_count).each do |j|
+          ret[i, j] = self[i, j] + other[i, j]
+        end
+      end
+      ret
     when Matrix
-      super other
+      super other.to_matrix
     else
-      Matrix.raise NotImplementedError, '+', self.class, other.class
+      raise NotImplementedError, '+', self.class, other.class
     end
   end
 
   def -(other)
     case other
     when Numeric
-      Matrix.Raise ErrOperationNotDefined, '-', self.class, other.class
+      raise ErrOperationNotDefined, '-', self.class, other.class
+    when DOKMatrix
+      raise IndexError if other.row_count != @row_count && other.column_count != @column_count
+
+      ret = new_matrix Hash.new, @row_count, @column_count
+      (0..@column_count).each do |i|
+        (0..@row_count).each do |j|
+          ret[i, j] = self[i, j] - other[i, j]
+        end
+      end
+      ret
     when Matrix
-      super other
+      super other.to_matrix
     else
-      Matrix.raise NotImplementedError, '+', self.class, other.class
+      raise NotImplementedError, '+', self.class, other.class
     end
   end
+
+  def hadamard_product(other)
+    case other
+    when DOKMatrix
+      raise IndexError if other.row_count != @row_count && other.column_count != @column_count
+
+      ret = new_matrix Hash.new, @row_count, @column_count
+      (0..@column_count).each do |i|
+        (0..@row_count).each do |j|
+          ret[i, j] = self[i, j] * other[i, j]
+        end
+      end
+      ret
+    when Matrix
+      super other.to_matrix
+    else
+      Raise ErrOperationNotDefined, 'hadamard_product', self.class, other.class
+    end
+  end
+  alias entrywise_product hadamard_product
 
   def read(row, col)
     @dict[[row, col]]
@@ -111,7 +165,7 @@ class DOKMatrix < SparseMatrix
   def delete(row, col)
     raise(ArgumentError) unless row >= 0 && col >= 0
 
-    @dict.delete([row, col])
+    @dict.key?([row, col]) ? @dict.delete([row, col]) : nil
   end
 
   def to_a
@@ -128,9 +182,9 @@ class DOKMatrix < SparseMatrix
   end
 
   def transpose
-    new_dict = {}
+    new_dict = Hash.new
     @dict.each do |key, val|
-      new_dict[[key[0], key[1]]] = val
+      new_dict[[key[1], key[0]]] = val
     end
     new_matrix new_dict, @column_count, @row_count
   end
