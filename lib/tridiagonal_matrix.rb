@@ -11,4 +11,12 @@ class TridiagonalMatrix
   def self.rows(rows, column_count = rows[0].length)
     # TODO: Implement
   end
+
+  def determinant
+    # TODO: Implement
+  end
+
+  def to_matrix
+    # TODO: Implement
+  end
 end
