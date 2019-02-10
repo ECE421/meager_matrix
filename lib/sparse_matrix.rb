@@ -68,6 +68,26 @@ class SparseMatrix < Matrix
     to_matrix.laplace_expansion(num)
   end
 
+  def each(which = :all, &block)
+    to_matrix.each(which, &block)
+  end
+
+  def each_with_index(which = :all, &block)
+    to_matrix.each_with_index(which, &block)
+  end
+
+  def cofactor(row, column)
+    to_matrix.cofactor(row, column)
+  end
+
+  def adjugate
+    to_matrix.adjugate
+  end
+
+  def collect(&block)
+    to_matrix.collect(&block)
+  end
+
   def **(other)
     to_matrix**other
   end
@@ -86,5 +106,9 @@ class SparseMatrix < Matrix
 
   def -(other)
     to_matrix - other
+  end
+
+  def combine(*matrices, &block)
+    Matrix.combine(to_matrix, *matrices.collect(&:to_matrix), &block)
   end
 end
