@@ -55,16 +55,7 @@ class DiagonalMatrix < SparseMatrix
   # Returns the DiagonalMatrix as a Matrix.
   #
   def to_matrix
-    i = 0
-    matrix = Array.new(@row_count, Array.new(@column_count, 0))
-    while i < @diagonal.length
-      row = Array.new(@column_count, 0)
-      row[i] = diagonal.at(i)
-      matrix[i] = row
-      puts(matrix)
-      i += 1
-    end
-    Matrix.rows(matrix)
+    Matrix.rows(to_a)
   end
 
   #
@@ -105,7 +96,6 @@ for a DiagonalMatrix"
       row = Array.new(@column_count, 0)
       row[i] = diagonal.at(i)
       array[i] = row
-      puts(array)
       i += 1
     end
     array
@@ -208,5 +198,54 @@ for a DiagonalMatrix"
       end
     end
     Matrix.rows(rows)
+  end
+
+  def -(other)
+    case other
+    when Numeric
+      Matrix.Raise ErrOperationNotDefined, '-', self.class, other.class
+    when Vector
+      other = self.class.column_vector(other)
+    when DiagonalMatrix
+      Matrix.Raise ErrDimensionMismatch unless row_count == other.row_count && column_count == other.column_count
+
+      diagonal = Array.new(@diagonal.size) { |i| @diagonal[i] - other.diagonal[i] }
+      return new_matrix diagonal, row_count, other.column_count
+    when Matrix
+      nil
+    else
+      return apply_through_coercion(other, __method__)
+    end
+
+    Matrix.Raise ErrDimensionMismatch unless row_count == other.row_count && column_count == other.column_count
+
+    rows = Array.new(row_count) do |i|
+      Array.new(column_count) do |j|
+        self[i, j] - other[i, j]
+      end
+    end
+    Matrix.rows(rows)
+  end
+
+  def /(other)
+    case other
+    when Numeric
+      diagonal = @diagonal.collect { |e| e / other }
+      new_matrix diagonal, row_count, column_count
+    when Matrix
+      self * other.inverse
+    else
+      apply_through_coercion(other, __method__)
+    end
+  end
+
+  def inverse
+    diagonal = @diagonal.collect { |e| 1 / e }
+    new_matrix diagonal, row_count, column_count
+  end
+
+  def **(other)
+    diagonal = @diagonal.collect { |e| e**other }
+    new_matrix diagonal, row_count, column_count
   end
 end

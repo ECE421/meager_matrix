@@ -123,6 +123,10 @@ class DOKMatrix < SparseMatrix
     Matrix.rows(to_a)
   end
 
+  def zero?
+    @dict.empty?
+  end
+
   def transpose
     new_dict = {}
     @dict.each do |key, val|

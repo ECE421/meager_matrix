@@ -4,6 +4,10 @@ require_relative '../lib/sparse_matrix'
 class CSRMatrix < SparseMatrix
   attr_reader(:a_array, :ia_array, :ja_array, :row_count, :column_count)
 
+  def new_matrix(a_array, ia_array, ja_array, row_count, column_count) # :nodoc:
+    self.class.send(:new, a_array, ia_array, ja_array, row_count, column_count) # bypass privacy of Matrix.new
+  end
+
   # Basic initialization. Assumes matrix input is properly formatted.
   def initialize(a_array, ia_array, ja_array, row_count, column_count)
     @a_array = a_array
@@ -42,22 +46,81 @@ class CSRMatrix < SparseMatrix
     @a_array
   end
 
-  def to_a
-    array = Array.new(@row_count) { Array.new(@column_count, 0) }
-    a_index = 0
-    last_num = 0
-    @ia_array.each_with_index do |num, i|
-      num_in_row = num - last_num
-      (0..num_in_row - 1).each do |_|
-        array[i - 1][@ja_array[a_index]] = @a_array[a_index]
-        a_index += 1
+  def to_matrix
+    matrix = Array.new(row_count) { Array.new(column_count, 0) }
+    i = 1
+    element = 0
+    prev = ia_array[0]
+    while i < ia_array.length
+      count = ia_array[i] - prev
+      count.times do
+        j = ja_array[element]
+        matrix[i - 1][j] = a_array[element]
+        element += 1
       end
-      last_num = num
+      prev = ia_array[i]
+      i += 1
     end
-    array
+    Matrix.rows(matrix)
   end
 
-  def to_matrix
-    Matrix.rows(to_a)
+  def to_a
+    to_matrix.to_a
+  end
+
+  def **(other)
+    raise(TypeError) unless other.is_a?(Numeric)
+
+    super other
+  end
+
+  def *(other)
+    case other
+    when Numeric
+      new_array = @a_array.map do |i|
+        i * other
+      end
+      new_matrix new_array, @ia_array, @ja_array, @row_count, @column_count
+    when Matrix
+      super other.to_matrix
+    else
+      Matrix.raise NotImplementedError, '*', self.class, other.class
+    end
+  end
+
+  def /(other)
+    case other
+    when Numeric
+      new_array = @a_array.map do |i|
+        i / other
+      end
+      new_matrix new_array, @ia_array, @ja_array, @row_count, @column_count
+    when Matrix
+      super other.to_matrix
+    else
+      Matrix.raise NotImplementedError, '/', self.class, other.class
+    end
+  end
+
+  def +(other)
+    case other
+    when Numeric
+      Matrix.Raise ErrOperationNotDefined, '+', self.class, other.class
+    when Matrix
+      super other.to_matrix
+    else
+      Matrix.raise NotImplementedError, '+', self.class, other.class
+    end
+  end
+
+  def -(other)
+    case other
+    when Numeric
+      Matrix.Raise ErrOperationNotDefined, '-', self.class, other.class
+    when Matrix
+      super other.to_matrix
+    else
+      Matrix.raise NotImplementedError, '+', self.class, other.class
+    end
   end
 end
