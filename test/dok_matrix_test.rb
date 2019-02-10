@@ -8,7 +8,9 @@ class DOKMatrixTest < Test::Unit::TestCase
   # Called before every test method runs.
   # Can be used to set up fixture information.
   def setup
-    @matrix = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
+    @row_count = 20
+    @column_count = 20
+    @matrix = SparseMatrixGenerator.generate_sparse_matrix(@row_count, @column_count)
     @sparse_matrix = SparseMatrixFactory.build(@matrix, DOKMatrixFactory.new)
   end
 
@@ -108,8 +110,8 @@ class DOKMatrixTest < Test::Unit::TestCase
 
   def test_add
     matrix = Matrix.build(
-      @matrix.row_count,
-      @matrix.column_count
+      @row_count,
+      @column_count
     ) { rand(-10..10) }
     actual = @sparse_matrix + matrix
     exp = @matrix + matrix
@@ -118,8 +120,8 @@ class DOKMatrixTest < Test::Unit::TestCase
 
   def test_subtract
     matrix = Matrix.build(
-      @matrix.row_count,
-      @matrix.column_count
+      @row_count,
+      @column_count
     ) { rand(-10..10) }
     actual = @sparse_matrix - matrix
     exp = @matrix - matrix
@@ -128,8 +130,8 @@ class DOKMatrixTest < Test::Unit::TestCase
 
   def test_divide
     matrix = Matrix.build(
-      @matrix.row_count,
-      @matrix.column_count
+      @row_count,
+      @column_count
     ) { rand(-10..10) }
     actual = @sparse_matrix / matrix
     exp = @matrix / matrix
@@ -138,8 +140,8 @@ class DOKMatrixTest < Test::Unit::TestCase
 
   def test_multiply
     matrix = Matrix.build(
-      @matrix.row_count,
-      @matrix.column_count
+      @row_count,
+      @column_count
     ) { rand(-10..10) }
     actual = @sparse_matrix * matrix
     exp = @matrix * matrix
@@ -147,24 +149,24 @@ class DOKMatrixTest < Test::Unit::TestCase
   end
 
   def test_add_dok
-    test = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
-    sparse_test = SparseMatrixFactory.build(test, DoKMatrixFactory.new)
+    test = SparseMatrixGenerator.generate_sparse_matrix(@row_count, @column_count)
+    sparse_test = SparseMatrixFactory.build(test, DOKMatrixFactory.new)
     actual = @sparse_matrix + sparse_test
     exp = @matrix + test
     assert_equal(exp, actual.to_matrix, 'Matrix addition failed')
   end
 
   def test_subtract_dok
-    test = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
-    sparse_test = SparseMatrixFactory.build(test, DoKMatrixFactory.new)
+    test = SparseMatrixGenerator.generate_sparse_matrix(@row_count, @column_count)
+    sparse_test = SparseMatrixFactory.build(test, DOKMatrixFactory.new)
     actual = @sparse_matrix - sparse_test
     exp = @matrix - test
     assert_equal(exp, actual.to_matrix, 'Matrix subtraction failed')
   end
 
   def test_multiply_dok
-    test = SparseMatrixGenerator.generate_sparse_matrix(4, 4)
-    sparse_test = SparseMatrixFactory.build(test, DoKMatrixFactory.new)
+    test = SparseMatrixGenerator.generate_sparse_matrix(@row_count, @column_count)
+    sparse_test = SparseMatrixFactory.build(test, DOKMatrixFactory.new)
     actual = @sparse_matrix * sparse_test
     exp = @matrix * test
     assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')

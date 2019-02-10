@@ -64,7 +64,7 @@ class DOKMatrix < SparseMatrix
       dict = @dict.transform_values { |v| v * other }
       new_matrix dict, @row_count, @column_count
     when DOKMatrix
-      Matrix.raise ErrDimensionMismatch if @column_count != other.row_count
+      raise ErrDimensionMismatch if @column_count != other.row_count
       ret = new_matrix Hash.new, @row_count, other.column_count
       (0..@row_count).each do |i|
         (0..other.column_count).each do |j|
@@ -79,7 +79,7 @@ class DOKMatrix < SparseMatrix
     when Matrix
       super other.to_matrix
     else
-      Matrix.raise NotImplementedError, '*', self.class, other.class
+      raise NotImplementedError, '*', self.class, other.class
     end
   end
 
@@ -91,16 +91,16 @@ class DOKMatrix < SparseMatrix
     when Matrix
       super other.to_matrix
     else
-      Matrix.raise NotImplementedError, '/', self.class, other.class
+      raise NotImplementedError, '/', self.class, other.class
     end
   end
 
   def +(other)
     case other
     when Numeric
-      Matrix.Raise ErrOperationNotDefined, '+', self.class, other.class
+      raise ErrOperationNotDefined, '+', self.class, other.class
     when DOKMatrix
-      Matrix.raise IndexError if other.row_count != @row_count && other.column_count != @column_count
+      raise IndexError if other.row_count != @row_count && other.column_count != @column_count
 
       ret = new_matrix Hash.new, @row_count, @column_count
       (0..@column_count).each do |i|
@@ -112,16 +112,16 @@ class DOKMatrix < SparseMatrix
     when Matrix
       super other.to_matrix
     else
-      Matrix.raise NotImplementedError, '+', self.class, other.class
+      raise NotImplementedError, '+', self.class, other.class
     end
   end
 
   def -(other)
     case other
     when Numeric
-      Matrix.Raise ErrOperationNotDefined, '-', self.class, other.class
+      raise ErrOperationNotDefined, '-', self.class, other.class
     when DOKMatrix
-      Matrix.raise IndexError if other.row_count != @row_count && other.column_count != @column_count
+      raise IndexError if other.row_count != @row_count && other.column_count != @column_count
 
       ret = new_matrix Hash.new, @row_count, @column_count
       (0..@column_count).each do |i|
@@ -133,14 +133,14 @@ class DOKMatrix < SparseMatrix
     when Matrix
       super other.to_matrix
     else
-      Matrix.raise NotImplementedError, '+', self.class, other.class
+      raise NotImplementedError, '+', self.class, other.class
     end
   end
 
   def hadamard_product(other)
     case other
     when DOKMatrix
-      Matrix.raise IndexError if other.row_count != @row_count && other.column_count != @column_count
+      raise IndexError if other.row_count != @row_count && other.column_count != @column_count
 
       ret = new_matrix Hash.new, @row_count, @column_count
       (0..@column_count).each do |i|
