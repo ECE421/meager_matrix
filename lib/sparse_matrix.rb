@@ -88,6 +88,10 @@ class SparseMatrix < Matrix
     to_matrix.collect(&block)
   end
 
+  def transpose
+    to_matrix.transpose
+  end
+
   def **(other)
     to_matrix**other
   end
