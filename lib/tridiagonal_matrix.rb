@@ -23,7 +23,7 @@ class TridiagonalMatrix < SparseMatrix
     end
     rows.each.with_index do |row, i|
       tri_row = Array.new(3, 0)
-      tri_row[0] = i - 1 < 0 ? 0 : row[i - 1]
+      tri_row[0] = (i - 1).negative? ? 0 : row[i - 1]
       tri_row[1] = row[i]
       tri_row[2] = i + 1 >= column_count ? 0 : row[i + 1]
       tridiagonal.push(tri_row)
@@ -53,7 +53,7 @@ class TridiagonalMatrix < SparseMatrix
     array = Array.new(@row_count) { Array.new(@column_count, 0) }
     while i < @row_count
       row = Array.new(@column_count, 0)
-      i - 1 < 0 ? nil : row[i - 1] = @tridiagonal[i][0]
+      (i - 1).negative? ? nil : row[i - 1] = @tridiagonal[i][0]
       row[i] = @tridiagonal[i][1]
       i + 1 >= @column_count ? nil : row[i + 1] = @tridiagonal[i][2]
       array[i] = row
