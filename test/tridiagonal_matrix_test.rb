@@ -21,8 +21,8 @@ class TridiagonalMatrixTest < Test::Unit::TestCase
   end
 
   def test_indexing
-    (0..@row_count-1).each do |row|
-      (0..@column_count-1).each do |col|
+    (0..@row_count - 1).each do |row|
+      (0..@column_count - 1).each do |col|
         assert_equal(@matrix[row, col], @sparse_matrix[row, col])
       end
     end
@@ -48,8 +48,8 @@ class TridiagonalMatrixTest < Test::Unit::TestCase
 
   def test_add
     matrix = Matrix.build(
-        @row_count,
-        @column_count
+      @row_count,
+      @column_count
     ) { rand(-10..10) }
     actual = @sparse_matrix + matrix
     exp = @matrix + matrix
@@ -58,8 +58,8 @@ class TridiagonalMatrixTest < Test::Unit::TestCase
 
   def test_subtract
     matrix = Matrix.build(
-        @row_count,
-        @column_count
+      @row_count,
+      @column_count
     ) { rand(-10..10) }
     actual = @sparse_matrix - matrix
     exp = @matrix - matrix
@@ -68,8 +68,8 @@ class TridiagonalMatrixTest < Test::Unit::TestCase
 
   def test_divide
     matrix = Matrix.build(
-        @row_count,
-        @column_count
+      @row_count,
+      @column_count
     ) { rand(-10..10) }
     actual = @sparse_matrix / matrix
     exp = @matrix / matrix
@@ -78,8 +78,8 @@ class TridiagonalMatrixTest < Test::Unit::TestCase
 
   def test_multiply
     matrix = Matrix.build(
-        @row_count,
-        @column_count
+      @row_count,
+      @column_count
     ) { rand(-10..10) }
     actual = @sparse_matrix * matrix
     exp = @matrix * matrix
@@ -100,15 +100,15 @@ class TridiagonalMatrixTest < Test::Unit::TestCase
   def test_transpose
     assert_equal(@sparse_matrix.to_matrix, @sparse_matrix.transpose.transpose.to_matrix)
     assert_equal(
-        @matrix.transpose,
-        @sparse_matrix.transpose.to_matrix
+      @matrix.transpose,
+      @sparse_matrix.transpose.to_matrix
     )
   end
 
   def test_determinant
     assert_equal(
-        @matrix.determinant,
-        @sparse_matrix.determinant,
+      @matrix.determinant,
+      @sparse_matrix.determinant
     )
   end
 
