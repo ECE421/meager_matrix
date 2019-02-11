@@ -17,24 +17,18 @@ class SparseMatrix < Matrix
           'SparseMatrix is an abstract class please implement methods'
   end
 
-  #
   # Returns the number of rows.
-  #
   def row_count
     raise NotImplementedError,
           'SparseMatrix is an abstract class please implement methods'
   end
 
-  #
   # Returns a new SparseMatrix constructed from a Matrix
-  #
   def from_matrix(matrix)
     raise NotImplementedError,
           'SparseMatrix is an abstract class please implement methods'
   end
 
-  # TODO: these methods need to convert back
-  # TODO: to there original SparseMatrix type
   def determinant
     to_matrix.determinant
   end
@@ -109,7 +103,7 @@ class SparseMatrix < Matrix
   end
 
   def hadamard_product(other)
-    to_matrix.hadamard_product()
+    to_matrix.hadamard_product
   end
 
   def combine(*matrices, &block)
