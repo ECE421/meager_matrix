@@ -7,6 +7,8 @@
 `meager_matrix` is ruby sparse matrix library that takes inspiration from
 SciPy's implementation of sparse matrices.
 
+The Ruby Version this library was written in is 2.5.3
+
 ## Usage
 TODO: fill in
 

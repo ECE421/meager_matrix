@@ -8,7 +8,6 @@ class CSRMatrix < SparseMatrix
     self.class.send(:new, a_array, ia_array, ja_array, row_count, column_count) # bypass privacy of Matrix.new
   end
 
-  # Basic initialization. Assumes matrix input is properly formatted.
   def initialize(a_array, ia_array, ja_array, row_count, column_count)
     @a_array = a_array
     @ia_array = ia_array
@@ -46,27 +45,18 @@ class CSRMatrix < SparseMatrix
     @a_array
   end
 
-  def to_matrix
-    matrix = Array.new(row_count) { Array.new(column_count, 0) }
-    i = 1
-    element = 0
-    prev = ia_array[0]
-    while i < ia_array.length
-      count = ia_array[i] - prev
-      count.times do
-        j = ja_array[element]
-        matrix[i - 1][j] = a_array[element]
-        element += 1
-      end
-      prev = ia_array[i]
-      i += 1
-    end
-    Matrix.rows(matrix)
+  def [](row, col)
+    read(row, col)
   end
 
-  def to_a
-    to_matrix.to_a
+  def []=(row, col, value)
+    raise(ArgumentError) unless row >= 0 && col >= 0
+    raise(TypeError) unless value.is_a?(Numeric) || value.nil?
+
+    value.nil? || value.zero? ? delete(row, col) : set_value(row, col, value)
   end
+  alias set_element []=
+  alias set_component []=
 
   def **(other)
     raise(TypeError) unless other.is_a?(Numeric)
@@ -122,5 +112,75 @@ class CSRMatrix < SparseMatrix
     else
       Matrix.raise NotImplementedError, '+', self.class, other.class
     end
+  end
+
+  def to_matrix
+    matrix = Array.new(row_count) { Array.new(column_count, 0) }
+    i = 1
+    element = 0
+    prev = ia_array[0]
+    while i < ia_array.length
+      count = ia_array[i] - prev
+      count.times do
+        j = ja_array[element]
+        matrix[i - 1][j] = a_array[element]
+        element += 1
+      end
+      prev = ia_array[i]
+      i += 1
+    end
+    Matrix.rows(matrix)
+  end
+
+  def to_a
+    to_matrix.to_a
+  end
+
+  def read(row, col)
+    prev_row_count = @ia_array[row]
+    row_count = @ia_array[row + 1]
+    return nil unless (row_count - prev_row_count).positive?
+
+    i = prev_row_count
+    while i < row_count
+      return @a_array[i] if col == @ja_array[i]
+
+      i += 1
+    end
+  end
+
+  def zero?
+    @a_array.empty?
+  end
+
+  def transpose
+    rows = to_a.transpose
+    matrix = CSRMatrix.rows(rows)
+    new_matrix matrix.a_array, matrix.ia_array, matrix.ja_array, matrix.row_count, matrix.column_count
+  end
+
+  def delete(row, col)
+    raise(ArgumentError) unless row >= 0 && col >= 0
+
+    rows = to_a
+    rows[row][col] = 0
+    matrix = CSRMatrix.rows(rows)
+    @a_array = matrix.a_array
+    @ia_array = matrix.ia_array
+    @ja_array = matrix.ja_array
+  end
+
+  private
+
+  def set_value(row, col, value)
+    raise(ArgumentError) unless row >= 0 && col >= 0
+    raise(TypeError) unless value.is_a?(Numeric) || value.nil?
+
+    rows = to_a
+    rows[row][col] = value
+    matrix = CSRMatrix.rows(rows)
+    @a_array = matrix.a_array
+    @ia_array = matrix.ia_array
+    @ja_array = matrix.ja_array
   end
 end
