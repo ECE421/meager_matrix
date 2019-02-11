@@ -24,3 +24,6 @@ Metrics/LineLength:
 
 Style/EmptyLiteral:
   Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false

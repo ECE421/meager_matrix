@@ -9,6 +9,6 @@ Gem::Specification.new do |s|
 inspiration from SciPy's implementation of sparse matrices."
   s.authors = ['Nathan Klapstein', 'Thomas Lorincz']
   s.email = 'nklapste@ualberta.ca'
-  s.files = FileList['lib/*.rb', 'bin/*', 'spec/*.rb'].to_a
+  s.files = FileList['lib/*.rb', 'bin/*', 'test/*.rb'].to_a
   s.homepage = 'https://github.com/ECE421/meager_matrix'
 end
