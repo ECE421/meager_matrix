@@ -140,9 +140,11 @@ class CSRMatrix < SparseMatrix
     prev_row_count = @ia_array[row]
     row_count = @ia_array[row + 1]
     return nil unless (row_count - prev_row_count).positive?
+
     i = prev_row_count
     while i < row_count
       return @a_array[i] if col == @ja_array[i]
+
       i += 1
     end
   end
