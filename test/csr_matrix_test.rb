@@ -36,6 +36,89 @@ class CSRMatrixTest < Test::Unit::TestCase
     assert_equal([], csr_matrix.ja_array)
   end
 
+  def test_get
+    matrix = CSRMatrix.rows(
+      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
+    )
+    assert_equal(8, matrix.read(1, 1))
+    assert_equal(nil, matrix.read(0, 0))
+  end
+
+  def test_insert
+    matrix = CSRMatrix.rows(
+      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
+    )
+
+    # Test inserting value to an empty index
+    assert_equal(nil, matrix.read(0, 0))
+    matrix[0, 0] = 10
+    assert_equal(10, matrix.read(0, 0))
+
+    # Test overwriting value
+    assert_equal(5, matrix.read(1, 0))
+    matrix[1, 0] = 6
+    assert_equal(6, matrix.read(1, 0))
+  end
+
+  def test_insert_zero
+    matrix = CSRMatrix.rows(
+      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
+    )
+
+    # Test overwriting with 0
+    assert_equal(5, matrix[1, 0])
+    matrix[1, 0] = 0
+    assert_equal(nil, matrix[1, 0])
+
+    # Test overwriting with nil
+    assert_equal(8, matrix[1, 1])
+    matrix[1, 1] = nil
+    assert_equal(nil, matrix[1, 1])
+  end
+
+  def test_insert_invalid_value
+    matrix = CSRMatrix.rows([[]])
+    assert_raises(TypeError) { matrix[0, 0] = 'a' }
+  end
+
+  def test_insert_invalid_index
+    matrix = CSRMatrix.rows([[]])
+    assert_raises(ArgumentError) { matrix[-1, -1] = 10 }
+  end
+
+  def test_delete
+    matrix = CSRMatrix.rows(
+      [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]]
+    )
+    matrix.delete(1, 0)
+    assert_equal([8, 3, 6], matrix.a_array)
+    assert_equal([0, 0, 1, 2, 3], matrix.ia_array)
+    assert_equal([1, 2, 1], matrix.ja_array)
+  end
+
+  def test_zero_empty
+    matrix = CSRMatrix.rows([[]])
+    assert_true(matrix.zero?)
+  end
+
+  def test_zero_true
+    matrix = CSRMatrix.rows([[0]])
+    assert_true(matrix.zero?)
+  end
+
+  def test_zero_false
+    matrix = CSRMatrix.rows([[1]])
+    assert_false(matrix.zero?)
+  end
+
+  def test_transpose
+    assert_equal(@sparse_matrix, @sparse_matrix.transpose.transpose)
+    assert_equal(
+      @matrix.transpose,
+      @sparse_matrix.transpose.to_matrix
+    )
+  end
+
   def test_to_a
     assert_equal(@matrix.to_a, @sparse_matrix.to_a, 'to_a failed for csr')
   end
@@ -129,11 +212,7 @@ class CSRMatrixTest < Test::Unit::TestCase
       exp = @matrix**scalar
       assert_equal(exp, actual.to_matrix, 'Matrix exponentiation failed')
     rescue Matrix::ErrNotRegular
-      begin
-        @matrix**scalar
-      rescue Matrix::ErrNotRegular
-        assert_true(true, 'Sparse was not able to be inverted')
-      end
+      assert_true(@matrix.regular?, 'Matrix was not irregular')
     end
   end
 end
