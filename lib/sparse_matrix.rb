@@ -103,7 +103,7 @@ class SparseMatrix < Matrix
   end
 
   def hadamard_product(other)
-    to_matrix.hadamard_product()
+    to_matrix.hadamard_product
   end
 
   def combine(*matrices, &block)

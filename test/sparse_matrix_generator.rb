@@ -24,8 +24,8 @@ class SparseMatrixGenerator
     # Generate random band matrices
     arr = []
     rows.times do |n|
-      s = n + band_offset > 0 ? n + band_offset : 0
-      e = n + band_offset + band_width > 0 ? n + band_offset + band_width : 0
+      s = (n + band_offset).positive? ? n + band_offset : 0
+      e = (n + band_offset + band_width).positive? ? n + band_offset + band_width : 0
       arr << Array.new(cols, 0).map!.with_index do |_elem, i|
         i >= s && i < e ? rand(rand_max) : 0
       end
