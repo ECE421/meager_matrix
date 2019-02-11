@@ -150,8 +150,8 @@ class DOKMatrixTest < Test::Unit::TestCase
 
   def test_hadamard_product
     matrix = Matrix.build(
-        @row_count,
-        @column_count
+      @row_count,
+      @column_count
     ) { rand(-10..10) }
     actual = @sparse_matrix.hadamard_product(matrix)
     exp = @matrix.hadamard_product(matrix)
@@ -189,7 +189,6 @@ class DOKMatrixTest < Test::Unit::TestCase
     exp = @matrix.hadamard_product(test)
     assert_equal(exp, actual.to_matrix, 'Matrix multiplication failed')
   end
-
 
   def test_power
     scalar = rand(2..5)
