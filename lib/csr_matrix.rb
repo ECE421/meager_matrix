@@ -138,17 +138,12 @@ class CSRMatrix < SparseMatrix
 
   def read(row, col)
     prev_row_count = @ia_array[row]
-    row_count = @ia_array[row+1]
-    if row_count - prev_row_count > 0
-      i = prev_row_count
-      while i < row_count do
-        if col == @ja_array[i]
-          return @a_array[i]
-        end
-        i += 1
-      end
-    else
-      return nil
+    row_count = @ia_array[row + 1]
+    return nil unless (row_count - prev_row_count).positive?
+    i = prev_row_count
+    while i < row_count
+      return @a_array[i] if col == @ja_array[i]
+      i += 1
     end
   end
 
