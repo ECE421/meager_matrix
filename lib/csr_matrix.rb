@@ -140,14 +140,26 @@ class CSRMatrix < SparseMatrix
     prev_row_count = @ia_array[row]
     row_count = @ia_array[row+1]
     if row_count - prev_row_count > 0
-      for i in prev_row_count..row_count do
+      i = prev_row_count
+      while i < row_count do
         if col == @ja_array[i]
           return @a_array[i]
         end
+        i += 1
       end
     else
       return nil
     end
+  end
+
+  def zero?
+    @a_array.empty?
+  end
+
+  def transpose
+    rows = to_a.transpose
+    matrix = CSRMatrix.rows(rows)
+    new_matrix matrix.a_array, matrix.ia_array, matrix.ja_array, matrix.row_count, matrix.column_count
   end
 
   def delete(row, col)
@@ -159,16 +171,6 @@ class CSRMatrix < SparseMatrix
     @a_array = matrix.a_array
     @ia_array = matrix.ia_array
     @ja_array = matrix.ja_array
-  end
-
-  def zero?
-    @a_array.empty?
-  end
-
-  def transpose
-    rows = to_a.transpose
-    matrix = CSRMatrix.rows(rows)
-    new_matrix matrix.a_array, matrix.ia_array, matrix.ja_array, matrix.row_count, matrix.column_count
   end
 
   private
